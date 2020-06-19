@@ -1,10 +1,6 @@
-//const sequelize = require('../app');
-//const DataTypes = require('sequelize/lib/data-types')
+
 const Message = require('../models').Message
 const User = require('../models/').User
-// const db = require('../models/index')
-// console.log(db)
-// const Message = db["Messages"]
 
 let clean = require('xss-clean/lib/xss').clean
 //let cleanTitreImage = clean(req.body.titreImage);
@@ -13,7 +9,6 @@ let clean = require('xss-clean/lib/xss').clean
  */
 exports.createMessage = (req, res, next)=>{
 
-    console.log(req.body)
     Message.create({ //  create méthode, qui combine les méthodes build et save
         titreImage: req.body.titreImage,
         imageUrl: req.body.imageUrl,

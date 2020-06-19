@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 require('dotenv').config();
 
 const messagesRoutes = require('./routes/messagesRoutes')
+const usersRoutes = require('./routes/usersRoutes')
 /**
  * DB connection
  */
@@ -35,5 +36,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
 app.use('/groupomania/messages', messagesRoutes)
+app.use('/groupomania/auth', usersRoutes)
 
 module.exports = app;
