@@ -1,19 +1,14 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Messages', {
+    return queryInterface.createTable('Commentaires', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      titreImage: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      imageUrl: {
-        allowNull: false,
+      texte: {
         type: Sequelize.STRING
       },
       UserId: {
@@ -24,9 +19,14 @@ module.exports = {
           key: 'id'
         },
       },
-      nbCommentaires: {
+      MessageId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        defaultValue: 0
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Messages',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +39,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Messages');
+    return queryInterface.dropTable('Commentaires');
   }
 };

@@ -2,45 +2,38 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Commentaire = sequelize.define('Commentaire', {
+
     texte: DataTypes.STRING,
-    userId: {
+    UserId: {
+      allowNull: false,
       type: DataTypes.INTEGER,
-      // references: {
-      //   model: 'User',
-      //   key: 'id'
-      // }
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
     },
-    messageId:{
+    MessageId: {
+      allowNull: false,
       type: DataTypes.INTEGER,
-      // references: {
-      //   model: 'Message',
-      //   key: 'id'
-      // }
+      references: {
+        model: 'Messages',
+        key: 'id'
+      }
     },
+
   }, {});
   Commentaire.associate = function(models) {
     // associations can be defined here
-    // models.User.belongsToMany(models.Message, {
-    //   through: models.Commentaire,
-    //   foreignKey: 'UserId',
-    //   otherKey: 'messageId',  
-    // });
-
-    // models.Message.belongsToMany(models.User, {
-    //   through: models.Commentaire,
-    //   foreignKey: 'messageId',
-    //   otherKey: 'UserId',  
-    // });
-
-    // models.Commentaire.belongsTo(models.User, {
-    //   foreignKey: 'UserId',
-    //   as: 'user',
-    // });
-
-    // models.Commentaire.belongsTo(models.Message, {
-    //   foreignKey: 'messageId',
-    //   as: 'message',
-    // });
-  };
+    Commentaire.belongsTo(models.Message, {
+      as: 'message',
+      foreignKey: 'MessageId',
+      onDelete: 'CASCADE'
+    }),
+    Commentaire.belongsTo(models.User, {
+      as: 'user',
+      foreignKey: 'UserId'
+    })
+  }
   return Commentaire;
-};
+
+}

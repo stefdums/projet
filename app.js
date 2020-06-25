@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const messagesRoutes = require('./routes/messagesRoutes')
 const usersRoutes = require('./routes/usersRoutes')
+//const commentairesRoutes = require('./routes/commentairesRoutes')
 /**
  * DB connection
  */
@@ -37,5 +38,7 @@ app.use(bodyParser.json());
 
 app.use('/groupomania/messages', messagesRoutes)
 app.use('/groupomania/auth', usersRoutes)
+//app.use('/groupomania/messages/:MessageId/comm', commentairesRoutes)
+
 
 module.exports = app;

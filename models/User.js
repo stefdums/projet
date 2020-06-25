@@ -8,12 +8,19 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     },  
     password: DataTypes.STRING,
-    isAdmin: DataTypes.INTEGER
+    isAdmin: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    }  
   }, {});
   User.associate = function(models) {
     // associations can be defined here
-    models.User.hasMany(models.Message)
-    //models.User.hasMany(models.Commentaire)
+    models.User.hasMany(models.Message),
+
+    models.User.hasMany(models.Commentaire, {
+      as: 'commentaires',
+      foreignKey: 'UserId'
+    })
   };
   return User;
 };
