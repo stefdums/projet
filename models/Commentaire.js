@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
   const Commentaire = sequelize.define('Commentaire', {
 
     texte: DataTypes.STRING,
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },  
     UserId: {
       allowNull: false,
       type: DataTypes.INTEGER,
@@ -31,7 +35,8 @@ module.exports = (sequelize, DataTypes) => {
     }),
     Commentaire.belongsTo(models.User, {
       as: 'user',
-      foreignKey: 'UserId'
+      foreignKey: 'UserId',
+      //onDelete: 'NULL'
     })
   }
   return Commentaire;

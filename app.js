@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express('./app');
 const bodyParser = require('body-parser')
+const path = require('path');
 require('dotenv').config();
 
 const messagesRoutes = require('./routes/messagesRoutes')
@@ -35,6 +36,8 @@ app.use((req, res, next) => {
  */
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
+
+app.use('/images', express.static(path.join(__dirname,'images'))),
 
 app.use('/groupomania/messages', messagesRoutes)
 app.use('/groupomania/auth', usersRoutes)

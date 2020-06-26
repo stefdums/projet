@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       unique: true
-    },  
+    },
+    photoProfil: {
+      type: DataTypes.STRING,
+      defaultValue:  `user_profil_default.png`
+    },
     password: DataTypes.STRING,
     isAdmin: {
       type: DataTypes.INTEGER,
@@ -19,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
 
     models.User.hasMany(models.Commentaire, {
       as: 'commentaires',
-      foreignKey: 'UserId'
+      foreignKey: 'UserId',
+    //  onDelete: 'NULL'
     })
   };
   return User;

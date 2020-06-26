@@ -25,6 +25,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      photoProfil: {
+        type: Sequelize.STRING,
+        defaultValue:  `user_profil_default.png`
+      },
       isAdmin: {
         type: Sequelize.INTEGER,
         defaultValue: 0

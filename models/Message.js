@@ -7,17 +7,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
       defaultValue: 0
-
     }
- 
   }, {});
   Message.associate = function(models) {
     // associations can be defined here
     models.Message.belongsTo(models.User, {
       foreignKey: {
         allowNull: false,
-      },
-      onDelete: 'CASCADE'
+      }
+      //onDelete: 'CASCADE'
     }),
     models.Message.hasMany(models.Commentaire, {
       as: 'commentaires',
