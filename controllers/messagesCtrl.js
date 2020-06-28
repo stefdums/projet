@@ -11,13 +11,13 @@ const clean = require('xss-clean/lib/xss').clean
  * POST
  */
 exports.createMessage = (req, res, next)=>{
+    let cleanTitreImage = clean(req.body.titreImage);
     /***
      * recuperation de UserId et isAdmin
      */
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const UserId = decodedToken.UserId;
-    let cleanTitreImage = clean(req.body.titreImage);
 
     Message.create({ //  create méthode, qui combine les méthodes build et save
         

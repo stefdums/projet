@@ -19,6 +19,7 @@ exports.createCommentaire = (req, res, next)=>{
 
     Commentaire.create({      // pour créer un commentaire
         texte: cleanTexte,
+        imageCommComm: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`, 
         UserId: UserId,
         MessageId: req.params.id
     })
@@ -48,11 +49,25 @@ exports.deleteCommentaire = (req, res, next) =>{
         }
     })
     .then( Commentaire => {
+        /**
+         * Suppression du commentaire autorisée seulement si Admin ou créateur du message
+         */        
         if( Commentaire.UserId == UserId || isAdmin == 1){
-
-            const filename = Commentaire.image.split('/images/')[1];
-            fs.unlink(`images/${filename}`, ()=> {
-
+// verif si le commentaire contient une image:
+            if ( Commentaire.imageComm ){
+                const filename = Commentaire.imageComm.split('/images/')[1];
+                fs.unlink(`images/${filename}`, ()=> {
+                    Commentaire.destroy({
+                        where: { id: req.params.id }
+                    })
+                    .then(()=> Message.decrement( //pour décrementer nbCommentaires de 1
+                        'nbCommentaires',
+                    { where: { id: req.params.id }}
+                    ))
+                    .then(() => res.status(200).json({ message: "commentaire supprimé" }))
+                    .catch(error => res.status(400).json({ error }))
+                })
+            } else {
                 Commentaire.destroy({
                     where: { id: req.params.id }
                 })
@@ -61,13 +76,14 @@ exports.deleteCommentaire = (req, res, next) =>{
                 { where: { id: req.params.id }}
                 ))
                 .then(() => res.status(200).json({ message: "commentaire supprimé" }))
-                .catch(error => res.status(400).json({ error }))
-            })
-        }    
-        else {
+                .catch(error => res.status(400).json({ error }))   
+            }
+        } else {
+            console.log('test')
             throw "ACTION NON AUTORISEE"
         }
     })
+    .then(console.log('pascoucou'))
     .catch(error => res.status(400).json({ error }))      
 }
 
@@ -105,9 +121,10 @@ exports.modifyCommentaire = (req, res, next)=>{
     })
     .then( Commentaire => {
         if ( Commentaire.UserId == UserId){
+            console.log(cleanTexte)
             Commentaire.update({
                 texte: cleanTexte,
-                image:  `${req.protocol}://${req.get('host')}/images/${req.body.filename}`
+                imageComm:  `${req.protocol}://${req.get('host')}/images/${req.body.filename}`
             },{
                 where: {
                     id: req.params.id   

@@ -29,7 +29,7 @@ module.exports = {
           key: 'id'
         }
       },
-      image: {
+      imageComm: {
         type: Sequelize.STRING,
         allowNull: true
       },

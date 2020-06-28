@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   const Commentaire = sequelize.define('Commentaire', {
 
     texte: DataTypes.STRING,
-    image: {
+    imageComm: {
       type: DataTypes.STRING,
       allowNull: true
     },  
@@ -31,12 +31,12 @@ module.exports = (sequelize, DataTypes) => {
     Commentaire.belongsTo(models.Message, {
       as: 'message',
       foreignKey: 'MessageId',
-      onDelete: 'CASCADE'
+      //onDelete: 'CASCADE'
     }),
     Commentaire.belongsTo(models.User, {
       as: 'user',
       foreignKey: 'UserId',
-      //onDelete: 'NULL'
+      //onDelete: 'CASCADE'
     })
   }
   return Commentaire;
