@@ -3,12 +3,10 @@ const Message = require('../models').Message
 const User = require('../models').User
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
-
-
 const clean = require('xss-clean/lib/xss').clean
  
 /**
- * POST
+ * POST un message
  */
 exports.createMessage = (req, res, next)=>{
     let cleanTitreImage = clean(req.body.titreImage);

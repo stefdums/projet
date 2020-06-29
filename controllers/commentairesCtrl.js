@@ -19,7 +19,7 @@ exports.createCommentaire = (req, res, next)=>{
 
     Commentaire.create({      // pour créer un commentaire
         texte: cleanTexte,
-        imageCommComm: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`, 
+        imageComm: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`, 
         UserId: UserId,
         MessageId: req.params.id
     })

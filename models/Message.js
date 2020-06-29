@@ -12,10 +12,15 @@ module.exports = (sequelize, DataTypes) => {
   Message.associate = function(models) {
     // associations can be defined here
     models.Message.belongsTo(models.User, {
-      as: 'user',
-      foreignKey: 'UserId',
-      allowNull: false,
-      
+
+      foreignKey: {
+        allowNull: false
+      }
+
+
+      // as: 'user',
+      // foreignKey: 'UserId',
+      // allowNull: false,
       //onDelete: 'CASCADE'
     }),
     models.Message.hasMany(models.Commentaire, {
