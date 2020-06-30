@@ -11,15 +11,20 @@ const commentairesCtrl = require('../controllers/commentairesCtrl')
 
 
 //route POST
-router.post('/', authConnexion, multer, messagesCtrl.createMessage);
+router.post('/', //authConnexion, 
+multer, messagesCtrl.createMessage);
 //PUT modifier un message
-router.put('/:id',authConnexion,  multer, messagesCtrl.modifyMessage)
+router.put('/:id',//authConnexion,
+  multer, messagesCtrl.modifyMessage)
 //route GET Tout les messages
-router.get('/', authConnexion, messagesCtrl.getMessages)
+router.get('/', //authConnexion, 
+messagesCtrl.getMessages)
 //route GET un message
-router.get('/:id', authConnexion, messagesCtrl.getMessageById)
+router.get('/:id', //authConnexion, 
+messagesCtrl.getMessageById)
 //route DELETE supprimer un message
-router.delete('/:id', authConnexion, messagesCtrl.deleteMessage)
+router.delete('/:id',// authConnexion, 
+messagesCtrl.deleteMessage)
 
 //route POST un commentaire
 router.post('/:id/comm',authConnexion,  multer, commentairesCtrl.createCommentaire);

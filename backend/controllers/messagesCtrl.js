@@ -80,7 +80,7 @@ exports.getMessages = (req, res, next)=>{
 
         include: [{
             model: User,
-            attributes: [ 'nom', 'prenom' ]
+            attributes: [ 'nom', 'prenom', 'photoProfil' ]
 
         }]
         
