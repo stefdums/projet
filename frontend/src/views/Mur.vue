@@ -1,30 +1,21 @@
 <template>
     <div>
-
-        
-        
-         <p>{{ message }}       
-                
-        <p class= "date"> {{ message.createdAt }}</p>
-        
-
-        <div>
-            <h2 class="link-message">
-                
-                <p class='titre-image'>{{ message.titreImage }}</p>
+        <header> 
+                <p class= "photo-profil"> {{ message.photoProfil }}</p>
+                <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>
+                <p class= "date"> {{ message.createdAt }}</p>
+        </header>
+        <main class="link-message"> 
+                <h2 class='titre-image'>{{ message.titreImage }}</h2>
                 <img class= "url-image" :src="message.imageUrl" :alt= 'message.titreImage'>
-                
-            </h2>
-        </div>
-
-            <p class= "nbCommentaire">nombre de commentaires: {{ message.nbCommentaires}}</p>  
-            
+        </main>
+            <p class= "nbCommentaire">nombre de commentaires: {{ message.nbCommentaires}}</p>   
             <button> &#10060; </button> 
-
+        <all-commentaires/>
     </div>
 </template>
 <script>
-//import Message from "../components/Message.vue"
+import AllCommentaires from "../components/AllCommentaires.vue"
 
 export default {
     props: ["id"],
@@ -32,12 +23,13 @@ export default {
         this.$store.dispatch('getMessage', this.id)
     },
     components: {
- //       Message
+        AllCommentaires
     },
     computed: {
         message(){
             return this.$store.state.message;
         }
+
     }
 }
 </script>

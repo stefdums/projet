@@ -3,8 +3,8 @@
     <div id="nav">
       <!-- <router-link to="/">Connexion</router-link> | -->
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/message">Message</router-link> |
+      <router-link to="/message">Messages</router-link> |
+      <router-link to="/poster">Poster</router-link>
 
     </div>
     <router-view/>

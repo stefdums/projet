@@ -15,8 +15,8 @@
                 </h2>
             </main>
 
-            <p class= "nbCommentaire">nombre de commentaires: {{ message.nbCommentaires}}</p>  
-            <router-link :to="{name: 'Mur', params: { id: message.id }}"> <button>&#128172;</button></router-link>
+            <p class= "nbCommentaires">nombre de commentaires: {{ message.nbCommentaires}}</p>  
+            <router-link :to="{name: 'Mur', params: { id: message.id }}" tag="button"> &#128172;</router-link>
             <button> &#10060; </button> 
                  
         </article>
@@ -30,4 +30,8 @@ export default {
     props: ["message"],
 }
 </script>
+<style>
+.message {  border: rgb(19, 46, 167) solid 10px; }
+    
+</style>
 

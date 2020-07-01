@@ -6,9 +6,12 @@ Vue.use(Vuex, axios)
 
 export default new Vuex.Store({
   state: {
+    users:[],
     messages: [],
     message: null,
-    users:[]
+    commentaires: []
+
+    
   },
   getters:{
 
@@ -20,6 +23,9 @@ export default new Vuex.Store({
     },
     SET_GET (state, message){
       state.message = message
+    },
+    SET_GET_COMMS (state, commentaires){
+      state.commentaires = commentaires
     }
   },
   actions: {
@@ -29,7 +35,6 @@ export default new Vuex.Store({
         .then( response => {
         let messages = response.data  
         commit('SET_GET_ALL', messages)
-
         })
         .catch( error => { error })
  
@@ -37,13 +42,22 @@ export default new Vuex.Store({
     getMessage ({ commit }, messageId){
       axios
         .get(`http://localhost:3000/groupomania/messages/${messageId}`)
-        .then( response => {
+        .then( response => { 
           let message = response.data         
           commit('SET_GET', message)
         })
         .catch( error => { error })
       
-    }
+    },
+    // getAllComms ({ commit }, messageId){
+    //   axios
+    //     .get(`http://localhost:3000/groupomania/messages/${messageId}/comm`)
+    //     .then (response => {
+    //       let commentaires = response.data
+    //       commit('SET_GET_COMMS', commentaires)
+    //     })
+    //     .catch ( error => { error })
+    // }
 
 
   },

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-//import { mapState } from 'vuex'
+
 import Message from '../components/Message'
 
 export default {

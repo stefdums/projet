@@ -27,12 +27,16 @@ router.delete('/:id',// authConnexion,
 messagesCtrl.deleteMessage)
 
 //route POST un commentaire
-router.post('/:id/comm',authConnexion,  multer, commentairesCtrl.createCommentaire);
+router.post('/:id/comm',//authConnexion,
+  multer, commentairesCtrl.createCommentaire);
 //route GET les commentaires d'un message
-router.get('/:MessageId/comm' ,authConnexion, commentairesCtrl.getCommentaires)
+router.get('/:MessageId/comm' ,//authConnexion,
+ commentairesCtrl.getCommentaires)
 //route DELETE un commentaire
-router.delete('/:MessageId/comm/:id',authConnexion, commentairesCtrl.deleteCommentaire);
+router.delete('/:MessageId/comm/:id',//authConnexion,
+ commentairesCtrl.deleteCommentaire);
 //route PUT son commentaire
-router.put('/:MessageId/comm/:id',authConnexion,  multer, commentairesCtrl.modifyCommentaire)
+router.put('/:MessageId/comm/:id',//authConnexion,
+  multer, commentairesCtrl.modifyCommentaire)
 
 module.exports = router;
