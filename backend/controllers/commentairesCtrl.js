@@ -91,11 +91,19 @@ exports.deleteCommentaire = (req, res, next) =>{
  * GET commentaires d'un message
  */
 exports.getCommentaires = (req, res, next)=>{
+    let order = req.query.order
     Commentaire.findAll({
-        where: {
-            MessageId: req.params.MessageId
-        },
+
+        order: [(order != null) ? order.split(':') : [ 'updatedAt', 'DESC' ]],
+        where: { MessageId: req.params.MessageId },
+        include: [{
+            model: User,
+            attributes: [ 'nom', 'prenom']
+
+        }]
+
     })
+    .then(console.log(User.nom))
     .then(messages => res.status(200).json(messages))
     .catch(error => res.status(400).json({ error })); //syntaxe invalide
 }

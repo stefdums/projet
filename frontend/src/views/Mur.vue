@@ -1,53 +1,44 @@
 <template>
-    <section>
-        <h1>THE WALL</h1>
-        <article class="message" v-for="message in messages" :key="message.id">
-      
-            <header> 
-                <p class= "photo-profil"> {{ message.photoProfil }}</p>
-                <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>
-                <p class= "date"> {{ message.createdAt }}</p>
-            </header>
+    <div>
 
-            <main>
-                <a class="link-message"  :href='"mur/"+ message.id' :id='message.id'>
-                    <h1 class="titre" > {{ message.titreImage }}</h1>
-                    <img class= "url" v-bind:src="message.imageUrl" :alt= 'message.titreImage' >
-                </a>
-            </main>
+        
+        
+         <p>{{ message }}       
+                
+        <p class= "date"> {{ message.createdAt }}</p>
+        
+
+        <div>
+            <h2 class="link-message">
+                
+                <p class='titre-image'>{{ message.titreImage }}</p>
+                <img class= "url-image" :src="message.imageUrl" :alt= 'message.titreImage'>
+                
+            </h2>
+        </div>
 
             <p class= "nbCommentaire">nombre de commentaires: {{ message.nbCommentaires}}</p>  
-            <button><a :href='"mur.html?id="+ message.id'>&#128172;</a></button> 
+            
             <button> &#10060; </button> 
 
-        </article>
-    </section>
+    </div>
 </template>
-
 <script>
-import { mapState } from 'vuex'
+//import Message from "../components/Message.vue"
 
 export default {
-    name: 'Mur',
-    mounted(){
-       this.$store.dispatch('getAllMessages')
-       
+    props: ["id"],
+    mounted (){
+        this.$store.dispatch('getMessage', this.id)
+    },
+    components: {
+ //       Message
     },
     computed: {
-    ...mapState ([ 
-        'messages'
-       ])
-    },
-    methods: {
-        getMessage(){
-            this.$store.dispatch('getMessage')
-        }    
+        message(){
+            return this.$store.state.message;
+        }
     }
-
 }
 </script>
-<style  scoped>
-div.message {
-    border: 1rem solid;
-}
-</style>
+

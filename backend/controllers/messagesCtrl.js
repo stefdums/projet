@@ -75,8 +75,9 @@ exports.modifyMessage = (req, res, next)=>{
  * GET tout les messages
  */
 exports.getMessages = (req, res, next)=>{
-
+    let order = req.query.order
     Message.findAll({
+        order: [(order != null) ? order.split(':') : [ 'createdAt', 'DESC' ]],
 
         include: [{
             model: User,
@@ -94,7 +95,11 @@ exports.getMessages = (req, res, next)=>{
 exports.getMessageById = (req, res, next)=>{
 
     Message.findOne({ 
-        where: { id: req.params.id }
+        where: { id: req.params.id },
+        include: [{
+            model: User,
+            attributes:  [ 'nom', 'prenom', 'photoProfil' ] 
+        }]
     })
     .then(message => res.status(200).json(message))
     .catch(error => res.status(404).json({ error }))

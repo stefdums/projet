@@ -34,9 +34,12 @@ module.exports = (sequelize, DataTypes) => {
       //onDelete: 'CASCADE'
     }),
     Commentaire.belongsTo(models.User, {
-      as: 'user',
-      foreignKey: 'UserId',
-      //onDelete: 'CASCADE'
+  //    as: 'user',
+  //    foreignKey: 'UserId',
+  //    onDelete: 'CASCADE'
+      foreignKey: {
+        allowNull: false
+      }
     })
   }
   return Commentaire;

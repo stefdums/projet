@@ -35,19 +35,11 @@ export default new Vuex.Store({
  
     },
     getMessage ({ commit }, messageId){
-      //  recherche adresse de la page actuelle
-      //let url = window.location.search;
-      //let searchUrl = new URLSearchParams(url);
-      // recuperation de la valeur associée à id
-      //let id = searchUrl.get("id");
-      //console.log(id)
       axios
         .get(`http://localhost:3000/groupomania/messages/${messageId}`)
         .then( response => {
-        let message = response.data  
-        
-        commit('SET_GET', message)
-
+          let message = response.data         
+          commit('SET_GET', message)
         })
         .catch( error => { error })
       
