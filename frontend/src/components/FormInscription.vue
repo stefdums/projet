@@ -1,30 +1,83 @@
 <template>
-     <form method="POST" id="form" name="form" target="_self">
-        
+     <form method="" id="form" name="form" target="_self">
+        <h2> INSCRIPTION </h2>
         <label for="nom"> Nom </label>
-        <input type="text" name="nom" id="nom" class="only-letters" data-valid = "false">
+        <input type="text" name="nom" id="nom" v-model="nom" class="only-letters" data-valid = "false">
         <span id="nom_m"></span><br>
 
         <label for="prenom"> Prenom </label>
-        <input type="text" name="prenom" id="prenom" class="only-letters" data-valid = "false">
+        <input type="text" name="prenom" id="prenom" v-model="prenom" class="only-letters" data-valid = "false">
         <span id="prenom_m"></span><br>
         
+        <label for="photo-profil"> photo Profil </label>
+        <input type="file" name="photo-profil" accept="image/*" id="photo-profil" data-valid = "false" >
+        <img style="max-height: 100px;display:block;margin-top:10px"> 
+        <span id="image_m"></span><br>
+
+
         <label for="email">Email </label>
-        <input type="email" name="email" id="email" data-valid = "false">
+        <input type="email" name="email" id="email" v-model="email" data-valid = "false">
         <span id="email_m"></span><br>
 
         <label for="password"> Password </label>
-        <input type="password" name="password" id="password" data-valid = "false">
+        <input type="password" name="password" id="password" v-model="password" data-valid = "false">
         <span id="password_m"></span><br>
 
-        <button id="bouton-valid" value ="validation" data-valid = "true">
+        <button id="bouton-valid" value ="validation" data-valid = "true"  @click.prevent="postInscription()">
         Validez l'incription</button>
     </form>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'FormInscription',
+    data(){
+        return {
+            nom: this.nom,
+            prenom: this.prenom,
+            photoProfil: this.photoProfil,
+            email: this.email,
+            password: this.password,
+        }
+    },
+    methods: {
+        postInscription(){
+            axios
+                .post('http://localhost:3000/groupomania/auth/inscription', {
+                    nom: this.nom,
+                    prenom: this.prenom,
+                    photoProfil: this.photoProfil,
+                    email: this.email,
+                    password: this.password
+                })
+                .then(()=> {
+                    
+                    this.postConnexion()
+                })
+                .catch( error => { error })
+        },
+        postConnexion (){
+                axios
+                    .post('http://localhost:3000/groupomania/auth/connexion', {
+                        email: this.email,
+                        password: this.password,
+                    })
+                    .then((response)=> {   
+                        if (response.status === 200){
+                            let results = response.data
+                            localStorage.setItem('token', results.token)
+                            localStorage.setItem('UserId', results.UserId)
+                            localStorage.setItem('isAdmin', results.isAdmin)
+                            this.$router.push('/')
+                        }
+                    })
+                    .catch( error => { error, this.erreur = true })
+            }
+
+
+
+    }
 
 } 
    

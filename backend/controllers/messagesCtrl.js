@@ -10,6 +10,7 @@ const clean = require('xss-clean/lib/xss').clean
  */
 exports.createMessage = (req, res, next)=>{
     let cleanTitreImage = clean(req.body.titreImage);
+    let cleanImageUrl = clean(req.body.imageUrl)
     /***
      * recuperation de UserId et isAdmin
      */
@@ -20,7 +21,8 @@ exports.createMessage = (req, res, next)=>{
     Message.create({ //  create méthode, qui combine les méthodes build et save
         
         titreImage: cleanTitreImage,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`, //req.file.filname a la place de body    
+//        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`, //req.file.filname a la place de body    
+        imageUrl: cleanImageUrl,
         UserId: UserId   
     })
     .then(console.log(UserId))
@@ -56,7 +58,7 @@ exports.modifyMessage = (req, res, next)=>{
             Message.update({ 
                 titreImage: cleanTitreImage,
                 imageUrl: req.body.imageUrl,
-                photoProfil: `${req.protocol}://${req.get('host')}/images/${req.body.filename}` //req.file.filname a la place de body    
+       //         photoProfil: `${req.protocol}://${req.get('host')}/images/${req.body.filename}` //req.file.filname a la place de body    
                 },{ 
                     where: {
                     id: req.params.id 

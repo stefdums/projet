@@ -1,24 +1,48 @@
 <template>
     <div>
-        <form method="POST" id="form" name="form" target="_self">
+        <p>TEST</p>
+        <form method="" id="form" name="form" target="_self">
         
             <label for="titre">Titre : </label>
-            <input type="text" name="titre" id="titre" class="only-letters" data-valid = "false" required="required">
+            <input type="text" v-model="titreImage" name="titre" id="titre" class="only-letters" data-valid = "false" required="required">
             <span id="titre_m"></span><br>
 
-            <label for="photo-profil">  </label>
-            <input type="file" name="photo-profil" accept="image/*" id="photo-profil" data-valid = "false" required="required">
-            <img [src]="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
-            <span id="photo-profil_m"></span><br>
+            <label for="image"> Mettre le lien de l'image </label>
+            <input type="url" v-model="imageUrl" name="imageurl" id="image" data-valid = "false" >
+            <img style="max-height: 200px;display:block;margin-top:10px"> 
+            <span id="image_m"></span><br>
 
-            <button id="bouton-valid" value ="validation" data-valid = "true">
+            <button id="bouton-valid" @click.prevent="postMessage()" value ="validation" data-valid ="true">
             Envoyer </button>
 
-        </form>  
+        </form>   
     </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
-    
+
+    methods: {
+        postMessage (){
+            console.log('test')
+            axios
+                .post('http://localhost:3000/groupomania/messages', {
+                    titreImage: this.titreImage,
+                    imageUrl: this.imageUrl},
+                    {
+                        headers:{
+                            Authorization: `Bearer ${localStorage.getItem('token')}`
+                        }
+                    }  
+                )
+                .then(()=> {
+                    console.log('test2')
+                    this.$router.push('/')               
+                })
+                .catch( error => { error })
+        }
+  
+    }
 }
 </script>

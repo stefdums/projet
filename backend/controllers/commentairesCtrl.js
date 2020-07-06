@@ -94,7 +94,7 @@ exports.getCommentaires = (req, res, next)=>{
     let order = req.query.order
     Commentaire.findAll({
 
-        order: [(order != null) ? order.split(':') : [ 'updatedAt', 'DESC' ]],
+        order: [(order != null) ? order.split(':') : [ 'createdAt', 'DESC' ]],
         where: { MessageId: req.params.MessageId },
         include: [{
             model: User,

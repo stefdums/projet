@@ -11,7 +11,9 @@ const multer = require('../middleware/multer-config');
 //route POST pour inscription
 router.post('/inscription',  multer,usersCtrl.inscription);
 
-router.get('/inscription', authAdmin, usersCtrl.getInscriptions)
+router.get('/inscription', authConnexion, usersCtrl.getInscriptions)
+
+router.get('/inscription/:id', authConnexion, usersCtrl.getOneInscription)
 
 router.put('/inscription/:id', authConnexion,  multer, usersCtrl.modifyUser)
 

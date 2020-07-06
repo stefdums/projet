@@ -14,8 +14,8 @@ const clean = require('xss-clean/lib/xss').clean
  */
 exports.inscription = (req, res, next)=>{
 
-    const cleanNom = clean(req.body.nom)
-    const cleanPrenom = clean(req.body.prenom)
+    const cleanNom = clean((req.body.nom).toUpperCase())
+    const cleanPrenom = clean((req.body.prenom).toLowerCase())
 
     // if (regexMail.test(req.body.email)){
     //     return res.status(400).json({ error: 'email non conforme' })
@@ -60,6 +60,7 @@ exports.connexion = (req, res, next) =>{
             }
             res.status(200).json({
                 UserId: User.id,
+                isAdmin: User.isAdmin,
                 token: jwt.sign({ 
                         UserId: User.id,
                         isAdmin: User.isAdmin
@@ -78,12 +79,25 @@ exports.connexion = (req, res, next) =>{
 }
 
 /***
- * GET inscription
+ * GET inscriptions
  */
 exports.getInscriptions = (req, res, next)=>{
 
     User.findAll({
         
+        attributes: [ 'id', 'nom', 'prenom', 'isAdmin', 'photoProfil']
+        
+    })
+    .then(messages => res.status(200).json(messages))
+    .catch(error => res.status(400).json({ error })); //syntaxe invalide
+}
+/***
+ * GET One inscription
+ */
+exports.getOneInscription = (req, res, next)=>{
+
+    User.findOne({
+        where: { id: req.params.id},
         attributes: [ 'id', 'nom', 'prenom', 'isAdmin', 'photoProfil']
         
     })
