@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="home">
         <all-messages/>
     </div>
 </template>
@@ -11,3 +11,17 @@ export default {
    } 
 }
 </script>
+<style lang="scss" scoped>
+.home{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;      
+}
+
+@media (max-width: 576px) {
+    .home {
+        width: 100%
+    }    
+}
+</style>

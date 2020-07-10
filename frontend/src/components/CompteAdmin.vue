@@ -1,18 +1,17 @@
 <template>
-    <div>
-        <article>
-            <div class="compte"  v-for="user in users" :key="user.id" :id="user.id">
-                <h2>  Compte  </h2>
-                <p> {{ user.nom }}</p>
-                <p> {{ user.prenom }}</p>
-                <p> {{ user.email }}</p>
-                <p> {{ user.createdAt }}</p>
-                <p> {{ user.isAdmin }} </p>
-                <p> {{ user.id }} </p>
-
-                <button @click.prevent="deleteCompte(user)"> &#10060; </button>
-            </div>    
-        </article>
+    <div class="card" style="width: 18rem;">
+        <b-card v-for="user in users" :key="user.id" :id="user.id">
+            <h5 class="card-title">{{ user.nom }} {{ user.prenom }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted" v-if="user.isAdmin == 1">est administrateur</h6>
+            
+            <b-card-text id="email"> {{ user.email }}</b-card-text>
+            <b-card-text id="date">date de création: {{ ((user.createdAt).split('T'))[0] }}</b-card-text>
+            <b-card-text id="id">id:  {{ user.id }}</b-card-text>     
+               
+                
+                
+            <b-button @click.prevent="deleteCompteAdmin(user)" class="btn border-danger bg-white"> &#10060; </b-button>
+        </b-card>
     </div>
 </template>
 <script>
@@ -24,11 +23,7 @@ export default {
     props: ["user.id"],
     data(){
         return {
-  //          users: [],
-            // isAdmin: localStorage.getItem('isAdmin'),
-            // id: this.user.id
-   //         id: this.user.id,
-            
+      //      isAdmin: user.isAdmin
         }
     },
     beforeMount(){
@@ -37,13 +32,13 @@ export default {
         console.log(this.$store.state.users)      
     },
 
-//test
+
     computed:{
         ...mapState(['users', 'user'])
     },
     methods: {
 
-        ...mapActions(['getAllComptes','deleteCompte']),
+        ...mapActions(['getAllComptes','deleteCompteAdmin']),
     
             
     

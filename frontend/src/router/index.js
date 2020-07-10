@@ -3,11 +3,12 @@ import VueRouter from 'vue-router'
 import Home from "../views/Home.vue"
 import Connexion from '../views/Connexion.vue'
 import Mur from '../views/Mur.vue'
-import GetCommentaires from '../components/GetCommentaires.vue'
+//import GetCommentaires from '../components/GetCommentaires.vue'
 import Poster from '../views/Poster.vue'
 import MonCompte from '../views/MonCompte.vue'
 import CompteAdmin from '../components/CompteAdmin.vue'
-import Modifier from '../views/Modifier.vue'
+import ModifyMessage from '../components/ModifyMessage.vue'
+import ModifyComm from '../components/ModifyComm.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -27,31 +28,38 @@ Vue.use(VueRouter)
     name: 'Mur',
     component: Mur,
     props: true,
-    children: [{
-      path:'comm',
-      component: GetCommentaires,
-      name: 'get-commentaires'
-    }]
+    children: [
+    { 
+      path: 'modif',
+      name: "ModifyMessage",
+      component: ModifyMessage,
+      children: [],
+    },  
+    {
+      path: "comm/modifcomm",
+      component: ModifyComm,
+      name: "ModifyComm"
+    },
+    
+
+    ], 
   },
+  // {
+  //   path: "modifcomm",
+  //   component: ModifyComm,
+  //   name: "ModifyComm"
+  // },
   {
     path: '/poster',
     name: 'poster',
     component: Poster
   },
-  {
-    path: '/modifier',
-    name:'modifier',
-    component: Modifier
-  },
+
   {
     path: '/moncompte',
     name: 'MonCompte',
     component: MonCompte,
-    // children: [{
-    //   path:"/moncompte/localStorage.getItem('UserId')",
-    //   component: Compte,
-    //   name:'Compte'
-    // }]
+  
   },
   {
     path: '/compteadmin',

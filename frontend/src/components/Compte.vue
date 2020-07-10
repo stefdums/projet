@@ -1,25 +1,27 @@
 <template>
-    <div class="comptes" >
-        <article>
-            <div class="compte">
-                <h2>  Compte  {{ user.id }} </h2>
-                <p> {{ user.nom }}</p>
-                <p> {{ user.prenom }}</p>
-                <p> {{ user.email }}</p>
-                <p> {{ user.createdAt }}</p>
-                <button @click="deleteCompte(user)"> &#10060; </button>
-            </div>  
-        </article>
+    <div class="card" style="width: 18rem;">
+        <b-card :id="user.id">
+            <h5 class="card-title">{{ user.nom }} {{ user.prenom }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted" v-if="user.isAdmin == 1">est administrateur</h6>
+            
+            <b-card-text id="email"> {{ user.email }}</b-card-text>
+            <b-card-text id="date">date de création: {{ ((user.createdAt).split('T'))[0] }}</b-card-text>
+   
+               
+                
+                
+            <b-button @click.prevent="deleteCompte(user)" class="btn border-danger bg-white"> &#10060; </b-button>
+        </b-card>
     </div>
 </template>
 <script>
-//v-for="user in users" :key="user.id"
+
 import axios from 'axios'
 import { mapActions } from 'vuex'
 
 export default {
     name: "Compte",
- //   props: [ 'user' ],
+
     data(){
         return {
             user: this.user,
@@ -28,9 +30,11 @@ export default {
     beforeMount(){
         this.getOneCompte()        
     },
-    methods:{
+    methods: {
+
+        ...mapActions(['deleteCompte']),
         getOneCompte(){
-   //         console.log(localStorage.getItem('UserId'))
+
             axios
                 .get(`http://localhost:3000/groupomania/auth/inscription/${localStorage.getItem('UserId')}` , {
                     headers: {
@@ -38,33 +42,12 @@ export default {
                     }
             })
             .then (response => {  
-                this.user = response.data 
-                console.log(this.user.id)      
+                this.user = response.data     
             })
             .catch ( error => { error })  
         },
-        ...mapActions['deleteCompte']
-        // deleteCompte(){
-        //         if( localStorage.getItem('UserId') != this.user.id ){
-        //             alert("vous ne pouvez pas faire ça")
-        //         }
-        //         else {
-        //             if(window.confirm('Voulez-vous supprimer votre compte')){
-        //             axios
-        //                 .delete(`http://localhost:3000/groupomania/auth/inscription/${localStorage.getItem('UserId')}`, {
-        //                     headers: {
-        //                         Authorization: `Bearer ${localStorage.getItem('token')}`
-        //                     }
-        //                 })
-        //                 .then(()=> {localStorage.clear()})
-        //                 .then(()=>{ window.alert('compte supprimé')})
-        //                 .then(()=> { this.$router.push('/Connexion') })
-        //                 .catch(( error )=> { error })
-        //             }      
-        //         } 
-        // }    
-           
         
+          
     }    
 }
 </script>

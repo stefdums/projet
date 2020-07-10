@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <CompteAdmin v-if='isAdmin == 1'/>
-        <Compte v-else />
+    <div class="mon-compte">
+        <CompteAdmin v-if='isAdmin == 1' class="compte-admin"/>
+        <Compte v-else class="compte"/>
     </div>    
 </template>
 <script>
@@ -24,3 +24,14 @@ export default {
        
 }
 </script>
+<style lang="scss" scoped>
+
+.mon-compte{
+    display: flex;
+    justify-content: center;
+    width:100%;    
+}
+.compte-admin{
+    width: 60%;
+}
+</style>

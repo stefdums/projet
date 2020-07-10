@@ -1,44 +1,98 @@
 <template>
-     <form method="" id="form" name="form" target="_self">
+    
+    <b-form method="" class="">
         <h2> INSCRIPTION </h2>
-        <label for="nom"> Nom </label>
-        <input type="text" name="nom" id="nom" v-model="nom" class="only-letters" data-valid = "false">
-        <span id="nom_m"></span><br>
 
-        <label for="prenom"> Prenom </label>
-        <input type="text" name="prenom" id="prenom" v-model="prenom" class="only-letters" data-valid = "false">
-        <span id="prenom_m"></span><br>
-        
-        <label for="photo-profil"> photo Profil </label>
-        <input type="file" name="photo-profil" accept="image/*" id="photo-profil" data-valid = "false" >
-        <img style="max-height: 100px;display:block;margin-top:10px"> 
-        <span id="image_m"></span><br>
+        <b-form-group class="form-group" 
+            id="input-group-nom"
+            label="Nom"
+            label-for="nom">
 
+            <b-form-input type="text" name="nom" id="nom" v-model="nom"  :state="validationNom"></b-form-input>
 
-        <label for="email">Email </label>
-        <input type="email" name="email" id="email" v-model="email" data-valid = "false">
-        <span id="email_m"></span><br>
+            <b-form-invalid-feedback :state="validationNom">
+                Nom non conforme
+            </b-form-invalid-feedback>
 
-        <label for="password"> Password </label>
-        <input type="password" name="password" id="password" v-model="password" data-valid = "false">
-        <span id="password_m"></span><br>
+            <b-form-valid-feedback :state="validationNom">
+                Nom valide
+            </b-form-valid-feedback>
 
-        <button id="bouton-valid" value ="validation" data-valid = "true"  @click.prevent="postInscription()">
-        Validez l'incription</button>
-    </form>
+        </b-form-group >
+
+        <b-form-group class="form-group" 
+                id="input-group-prenom"
+                label="Prenom"
+                label-for="prenom">
+
+            <b-form-input type="text" name="prenom" id="prenom" v-model="prenom" fromcontrolname="prenom" :state="validationPrenom"></b-form-input>
+
+            <b-form-invalid-feedback :state="validationPrenom">
+                    Prenom non conforme
+            </b-form-invalid-feedback>
+
+            <b-form-valid-feedback :state="validationPrenom">
+                    Prenom valide
+            </b-form-valid-feedback>
+        </b-form-group>
+
+        <b-form-group class="form-group"
+            id="input-group-prenom"
+            label="photo-profil"
+            label-for="photo-profil">
+
+            <b-form-input type="text" name="photo-profil" id="photo-profil" ></b-form-input>
+            
+        </b-form-group>
+
+        <b-form-group class="form-group"
+            id="input-group-email"
+            label="Email"
+            label-for="email">
+
+            <b-form-input type="email" name="email" id="email" v-model="email"></b-form-input>
+            
+        </b-form-group>
+
+        <b-form-group class="form-group"
+            id="input-group-password"
+            label="Mot de passe"
+            label-for="password">
+
+            <b-form-input type="password" name="password" id="password" v-model="password" :state="validationPassword"></b-form-input>
+            <b-form-invalid-feedback :state="validationPassword">
+                    Mot de passe valide non conforme
+            </b-form-invalid-feedback>
+
+            <b-form-valid-feedback :state="validationPassword">
+                    Mot de passe non valide
+            </b-form-valid-feedback>
+
+            </b-form-group>
+
+        <b-button id="bouton-valid" value="validation" @click.prevent="postInscription()" class="btn-light bg-light">
+            Validez l'incription
+        </b-button>
+    </b-form>
+    
 </template>
 
 <script>
 import axios from 'axios'
 export default {
+
     name: 'FormInscription',
     data(){
         return {
-            nom: this.nom,
-            prenom: this.prenom,
-            photoProfil: this.photoProfil,
-            email: this.email,
-            password: this.password,
+            form: {
+                nom: null
+            },
+            nom: "",
+            prenom: "",
+            photoProfil: "",
+            email: "",
+            password: "",
+            
         }
     },
     methods: {
@@ -73,90 +127,29 @@ export default {
                         }
                     })
                     .catch( error => { error, this.erreur = true })
-            }
+        }
 
-
-
+    },
+    computed:{
+        validationNom(){
+            let regexText = /^[a-zA-Zéèçîï][a-zA-Zéèêçîï]+([a-zA-Zéèêçîï\-'\s]+)$/; 
+            return regexText.test(this.nom)
+        },    
+        validationPrenom(){
+            let regexText = /^[a-zA-Zéèçîï][a-zA-Zéèêçîï]+([a-zA-Zéèêçîï\-'\s]+)$/; 
+            return regexText.test(this.prenom)
+        }
+        // validationPassword(){
+        //     let regexPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{10,})/;
+        //     return regexPwd.test(this.password)
+        // }
     }
 
 } 
-   
-/**
- * 
- * validation inputs du formulaire [^0-9]
- *  
-*/
-// regex commence par a-z ou en maj, puis que des lettres et avec accents, plus que 2 lettres puis ajout hypothetique du prenom composé
-// let regexText = /^[a-zA-Zéèçîï][a-zA-Zéèêçîï]+([a-zA-Zéèêçîï\-'\s]+)$/; 
-// let regexMail = /.+@.+\..+/
-
-// let form = document.getElementById("form")
-// let inputs = document.forms["form"]
-// let champsText = document.querySelectorAll(".only-letters")
-// let champMail = inputs.querySelector("[type=email]")
- 
-// /**
-//  * fonction pour valider le champ
-//  * @param {string} champ 
-//  */
-// let styleInputValid =(champ)=>{ 
-//     champ.nextElementSibling.innerHTML = "&#10004"
-//     champ.nextElementSibling.style.color = "green"
-//     champ.dataset.valid = "true"   
-// }
-// /**
-//  * fonction pour erreur champ vide
-//  * @param {string} champ 
-//  */
-// let erreurVide = (champ)=>{ 
-//     champ.nextElementSibling.innerHTML = champ.previousElementSibling.innerHTML + " est vide"
-//     champ.nextElementSibling.style.color = "red"
-//     champ.dataset.valid = "false"
-    
-// }
-// /**
-//  * fonction pour erreur champ non conforme
-//  * @param {string} champ 
-//  */
-// let erreurConformite = (champ)=>{ 
-//     champ.nextElementSibling.innerHTML = champ.previousElementSibling.innerHTML + " n'est pas conforme"
-//     champ.nextElementSibling.style.color = "orange"
-//     champ.dataset.valid = "false"
-    
-// }
-//traitement pour validation inputs avec du text
-// for (let i=0; i< champsText.length; i++){
-//     champsText[i].addEventListener("blur", function(e){
-    
-//         if(!champsText[i].value){
-//             e.preventDefault()
-//             erreurVide(champsText[i])
-//         }else if(!regexText.test(champsText[i].value)) {
-//             e.preventDefault()
-//             erreurConformite(champsText[i])
-
-//         }else{
-//             styleInputValid(champsText[i])
-//         }
-//     })
-// }
-// //validation des inputs avec un mail
-// champMail.addEventListener("blur", function(e){
-    
-//     if(!champMail.value){
-//         e.preventDefault()
-//         erreurVide(champMail)
-        
-//     }else if(!regexMail.test(champMail.value)){
-//         e.preventDefault()
-//         erreurConformite(champMail)
-//     }else{
-//         styleInputValid(champMail)
-        
-//     }
-// })
-
-  
-
-
 </script>
+<style lang="scss" scoped>
+button{
+   border-color: #D1515A;   
+}
+  
+</style>

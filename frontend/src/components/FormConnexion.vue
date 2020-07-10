@@ -1,17 +1,17 @@
 <template>
-   <form class="connexion-form">
+   <b-form class="">
         <h2> CONNEXION </h2>
-        <div class="form-group">
+        <b-form-group>
             <label for="email">Email</label>
-            <input type="email" @focus="erreur = false" v-model="email" class="form-control" id="email" formControlName="email">
-        </div>
+            <b-form-input type="email" @focus="erreur = false" v-model="email" class="form-control" id="email" formControlName="email"></b-form-input>
+        </b-form-group>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" @focus="erreur = false" v-model="password" class="form-control" id="password" formControlName="password">
+            <b-form-input type="password" @focus="erreur = false" v-model="password" class="form-control" id="password" formControlName="password"></b-form-input>
         </div>
         <p v-if="erreur"> Mot de passe ou email incorrect </p>
-        <button class="ConnexionForm.invalid" @click.prevent="postConnexion()">Connexion</button>    
-    </form> 
+        <b-button class="ConnexionForm.invalid btn-light bg-light" @click.prevent="postConnexion()" >Connexion</b-button>    
+    </b-form> 
 </template>
 <script>
 import axios from 'axios'
@@ -44,10 +44,10 @@ export default {
         }
 }
 </script>
-<style scoped>
-    form {
-            margin: 2em auto;
-            max-width: 750px;
-        }
+<style lang="scss" scoped>
+button{
+  border-color: #D1515A
+}
+  
 
 </style>

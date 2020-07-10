@@ -1,6 +1,8 @@
 <template>
-    <div class="post">
+    <div class="all-messages">
+    <main class="post">
         <message v-for="message in messages" :key="message.id" :message="message"/>
+    </main>
     </div>
 </template>
 
@@ -30,8 +32,9 @@ export default {
 
 }
 </script>
-<style  scoped>
-div.message {
-    border: 1rem solid;
-}
+<style scoped>
+
+
+
+
 </style>

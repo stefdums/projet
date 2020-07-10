@@ -1,14 +1,21 @@
 <template>
     <div class="post-commentaire">
         <form id='form-comm'>
-            <label> Ecrire un commentaire : </label><br>
-            <textarea v-model="texte" id="texte" name="texte"></textarea>
-            <br>
-            <label for="image-comm"> Mettre le lien de l'image </label>
-            <input type="url" name="image"  id="image-comm" data-valid = "false" >
-            <img style="max-height: 100px;display:block;margin-top:10px"> 
-            
-            <button id="envoi-comm" @click.prevent="postCommentaire({messageid, texte })" value="validation"> envoyer </button>
+            <label for="texte">Ecrire un commentaire :</label>
+            <b-form-textarea
+                id="texte"
+                v-model="texte"
+                name='texte'
+                placeholder="Votre commentaire"
+                rows="3"
+                max-rows="6"
+                max-width= 60%;
+            ></b-form-textarea>
+
+            <label for="imageComm">Le lien de l'image :</label>
+            <b-form-input type="url" name="imageComm"  id="image-comm" placeholder="Lien de l'image" v-model="imageComm"></b-form-input>
+
+            <b-button id="envoi-comm" @click.prevent="postCommentaire({messageid, texte, imageComm })" value="validation" class="bg-light btn-light"> envoyer </b-button>
         </form>
         
 
@@ -29,3 +36,18 @@ export default {
 } 
 
 </script>
+<style lang="scss" scoped>
+.post-commentaire{
+    margin-bottom: 10px;
+    label{
+        margin-top: 10px;
+    };
+    
+}
+#envoi-comm{
+    margin-top: 10px;
+    border-color: #D1515A;
+
+}
+    
+</style>

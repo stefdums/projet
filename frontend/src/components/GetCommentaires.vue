@@ -1,15 +1,29 @@
 <template>
     <div class="commentaires" >
+
         <div class='commentaire' v-for="commentaire in commentaires" :key="commentaire.id" :userId="commentaire.userId"> 
-           <img :src="commentaire.User.photoProfil" :alt="commentaire.User.nom" id="photo-profil">
-           <p id="nom-prenom"> {{ commentaire.User.nom }} {{ commentaire.User.prenom }} </p> 
-           <p id="date"> {{ commentaire.createdAt }} </p>
-           <p id="texte"> {{ commentaire.texte }}</p>
-           <div class="imageComm" v-if="commentaire.imageComm !== null">
-               <img :src='commentaire.imageComm' :alt="'image de : '+  commentaire.User.nom">
-           </div>
-            <button @click.prevent="deleteCommentaire({commentaire, messageid})"> &#10060; </button> <p> {{ commentaire.id }} </p>
-        </div>        
+            <b-card 
+                :title='commentaire.User.nom + " " + commentaire.User.prenom'
+                :img-src="commentaire.imageComm"
+                :img-alt="commentaire.texte" >
+                <b-card-text>
+                    <div id="text">{{ commentaire.texte }}</div>
+                    
+                        <p id= "date"> {{ ((commentaire.createdAt).split('T'))[0] }}  {{ ((((commentaire.createdAt).split('T'))[1]).split('.'))[0] }}</p>
+                        
+                    
+                </b-card-text>
+                <b-card-footer>               
+                    <router-link :to="{name: 'ModifyComm', params: { UserId: commentaire.UserId}}" v-if="userid == commentaire.UserId"> 
+                        <b-button  class="btn-light border border-info bg-white" > &#9998; </b-button>
+                    </router-link>
+                    <b-button @click.prevent="deleteCommentaire({commentaire, messageid})" class="border border-danger bg-white" v-if="isAdmin == 1 || userid == commentaire.UserId"> &#10060; </b-button>
+    
+                </b-card-footer>     
+            </b-card>          
+         
+        </div>
+             
     </div>
 </template>
 <script>
@@ -23,12 +37,17 @@ export default {
             messageid: this.$route.params.id,
             commentaires: [],
             commentaireid: this.id,
+            userid: localStorage.getItem('UserId'),
+            isAdmin: localStorage.getItem('isAdmin'),
   
  
         }
     },
     beforeMount() {
         this.getAllComms()
+    },
+    created(){
+        console.log(this.$store)
     },
     methods: {
         getAllComms (){
@@ -43,7 +62,7 @@ export default {
             })
             .catch ( error => { error })
         },
-        ...mapActions(['deleteCommentaire'])
+        ...mapActions(['deleteCommentaire', 'modifyComm'])
     },
     comptuted:{
  
@@ -51,8 +70,24 @@ export default {
         
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .commentaire{
-    border: black solid 10px;
+    margin-bottom: 10px; 
+
+};
+.card-title{
+    font-size: 1rem
+}
+.card-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 0px;
+
+}
+button{
+    font-size: bold;
 }
 </style>
+
+
+

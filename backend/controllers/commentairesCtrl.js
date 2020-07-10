@@ -10,6 +10,7 @@ const fs = require('fs')
  */
 exports.createCommentaire = (req, res, next)=>{
     const cleanTexte = clean(req.body.texte)
+    const cleanImageComm = clean(req.body.imageComm)
     /***
      * recuperation de UserId et isAdmin
      */
@@ -19,7 +20,7 @@ exports.createCommentaire = (req, res, next)=>{
 
     Commentaire.create({      // pour créer un commentaire
         texte: cleanTexte,
-        imageComm: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`, 
+        imageComm: cleanImageComm, 
         UserId: UserId,
         MessageId: req.params.id
     })
@@ -121,6 +122,7 @@ exports.modifyCommentaire = (req, res, next)=>{
     const isAdmin = decodedToken.isAdmin;
 
     const cleanTexte = clean(req.body.texte)
+    const cleanImageComm = clean(req.body.imageComm)
 
     Commentaire.findOne({
         where: {
@@ -132,7 +134,7 @@ exports.modifyCommentaire = (req, res, next)=>{
             console.log(cleanTexte)
             Commentaire.update({
                 texte: cleanTexte,
-                imageComm:  `${req.protocol}://${req.get('host')}/images/${req.body.filename}`
+                imageComm: cleanImageComm
             },{
                 where: {
                     id: req.params.id   

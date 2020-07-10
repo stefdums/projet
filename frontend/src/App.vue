@@ -41,12 +41,21 @@ export default {
 </script>
 
 <style lang="scss">
+body{
+  
+  background:  #ffd7d7 !important;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Typold Book, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #091F43;
+  background-color: #ffd7d7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 }
 
 #nav {
@@ -54,11 +63,17 @@ export default {
 
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #091F43;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #D1515A;
     }
   }
 }
+
 </style>
+
+#D1515A rouge
+#091F43 bleu (police)
+#ffd7d7 rouge clair
+#a8a6a6 gris

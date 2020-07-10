@@ -82,10 +82,11 @@ exports.connexion = (req, res, next) =>{
  * GET inscriptions
  */
 exports.getInscriptions = (req, res, next)=>{
-
+    let order = req.query.order
     User.findAll({
-        
-        attributes: [ 'id', 'nom', 'prenom', 'isAdmin', 'photoProfil']
+        order: [(order != null) ? order.split(':') : [ 'nom', 'ASC' ]],
+        attributes: [ 'id', 'nom', 'prenom', 'email', 'createdAt','isAdmin', 'photoProfil']
+    
         
     })
     .then(messages => res.status(200).json(messages))
@@ -98,7 +99,7 @@ exports.getOneInscription = (req, res, next)=>{
 
     User.findOne({
         where: { id: req.params.id},
-        attributes: [ 'id', 'nom', 'prenom', 'isAdmin', 'photoProfil']
+        attributes: [ 'id', 'nom', 'prenom', 'email', 'createdAt', 'isAdmin', 'photoProfil']
         
     })
     .then(messages => res.status(200).json(messages))

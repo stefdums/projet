@@ -1,19 +1,25 @@
 <template>
-    <div>
-        <p>TEST</p>
+    <div class="post-message">
         <form method="" id="form" name="form" target="_self">
         
-            <label for="titre">Titre : </label>
-            <input type="text" v-model="titreImage" name="titre" id="titre" class="only-letters" data-valid = "false" required="required">
-            <span id="titre_m"></span><br>
+            <b-form-group class="form-group"
+                id="input-group-titre"
+                label="titre: "
+                label-for="titre"
+            >    
+                <b-form-input type="text" v-model="titreImage" name="titre" id="titre" required="required"></b-form-input>
+            </b-form-group>
 
-            <label for="image"> Mettre le lien de l'image </label>
-            <input type="url" v-model="imageUrl" name="imageurl" id="image" data-valid = "false" >
-            <img style="max-height: 200px;display:block;margin-top:10px"> 
-            <span id="image_m"></span><br>
+            <b-form-group class="form-group"
+                id="input-group-url"
+                label="lien de l'image: "
+                label-for="imageurl"
+            >
+                <b-form-input type="url" v-model="imageUrl" name="imageurl" id="image" ></b-form-input>
+            </b-form-group>
 
-            <button id="bouton-valid" @click.prevent="postMessage()" value ="validation" data-valid ="true">
-            Envoyer </button>
+            <b-button id="bouton-valid" @click.prevent="postMessage()" value ="validation" class="btn btn-light bg-light">
+            Envoyer </b-button>
 
         </form>   
     </div>
@@ -46,3 +52,12 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+.post-message{
+    width:60%;
+};
+button{
+  border-color: #D1515A
+}
+
+</style>
