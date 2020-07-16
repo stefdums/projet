@@ -10,10 +10,9 @@
             :to="{name: 'Mur', params: { id: message.id }}"  
         >
             
-            <b-cart-text>
-                <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>
-                                    
-            </b-cart-text>
+            <b-card-text class= "user">
+                {{ message.User.nom }} {{ message.User.prenom }}                        
+            </b-card-text>
 
             <b-link :to="{name: 'Mur', params: { id: message.id }}" tag="button" class="btn">
                     Afficher 
@@ -67,6 +66,7 @@ export default {
     article{
         border-radius: 40px;
         color: #091F43; 
+        margin-bottom: 10px;
        
     }
     .card-body{
@@ -84,15 +84,12 @@ export default {
                 display: flex;
                 justify-content: space-around;
                 margin-top: 10px;
-                .date{
-                    color: red;
-                    font-size: 0.9rem;
-                }
+                
             };
         .btn{
                 font-weight: bold;
                 color: #091F43;
-                background-color: #D1515A
+                background-color: #ffd7d7;
             };
     };
     .card-footer{

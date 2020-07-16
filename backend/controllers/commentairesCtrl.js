@@ -99,7 +99,7 @@ exports.getCommentaires = (req, res, next)=>{
         where: { MessageId: req.params.MessageId },
         include: [{
             model: User,
-            attributes: [ 'nom', 'prenom']
+            attributes: [ 'nom', 'prenom', 'id' ]
 
         }]
 
@@ -107,6 +107,25 @@ exports.getCommentaires = (req, res, next)=>{
     .then(console.log(User.nom))
     .then(messages => res.status(200).json(messages))
     .catch(error => res.status(400).json({ error })); //syntaxe invalide
+}
+/**
+ * GET un commentaire
+ */
+exports.getCommentaireById = (req, res, next)=>{
+
+    Commentaire.findOne({
+
+        where: { id: req.params.id },
+        include: [{
+            model: User,
+            attributes: [ 'nom', 'prenom' ]
+
+        }]
+
+    })
+    .then(console.log(User.nom))
+    .then(commentaire => res.status(200).json(commentaire))
+    .catch(error => res.status(404).json({ error })); //syntaxe invalide
 }
 
 /**

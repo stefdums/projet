@@ -1,72 +1,72 @@
 <template>
     <div class="section">
-           <b-card
+        
+     <b-card
+            v-for="message in messages" 
+            :key="message.id"
             :hearder= '"message.User.nom" + "message.User.prenom"'
             :title="message.titreImage"
             :img-src="message.imageUrl"
-            :img-alt="message.titreImage"
+            img-alt="message.titreImage"
             img-top
             tag="article"          
-            class="md-2"            
-            >
-            <b-cart-text class="cart-text">
-
-                <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>
-                <router-link :to="{name:'ModifyMessage'}" v-if="userid == message.UserId" ><b-button  class="border border-info bg-white">&#9998; </b-button></router-link>
-                
-                <b-button  @click.prevent="deleteMessage()" v-if="userid == message.UserId  || isAdmin == 1" class="border border-danger bg-white"> &#10060; </b-button> 
-                
+            class="md-2 card"
+          
+        >
+            
+            <b-cart-text>
+                <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>                        
             </b-cart-text>
-            <b-card-footer>
 
+            <router-link :to="{name: 'Mur', params: { id: message.id }}" tag="button" class="btn border border-info">Afficher </router-link>
+                    
+            
+            <div>
+                <!-- <router-link :to="{name:'ModifyMessage'}" v-if="userid == message.UserId"><b-button  class="border border-info bg-white">&#9998; </b-button></router-link> -->
+                    
+                <b-button  @click.prevent="deleteMessage(message)" v-if="userid == message.UserId  || isAdmin === 1" class="border border-danger bg-white"> &#10060; </b-button> 
+            </div>
+
+            <b-card-footer>
                 <p class= "nbCommentaires">nombre de commentaires: {{ message.nbCommentaires}}</p>
+
                 <div class="date">
                     <p id= "jour"> {{ ((message.createdAt).split('T'))[0] }}</p>
                     <p id= "heure"> {{ ((((message.createdAt).split('T'))[1]).split('.'))[0] }}</p>
                 </div>
-
+                
             </b-card-footer>
 
-            </b-card> 
-     <!-- lien pour modifier le message -->       
-        <router-view v-if="this.$route.params.commid == null"></router-view>
-        <PostCommentaire/>    
-        <all-commentaires class="all-commentaires"/>
-    </div>
+        </b-card>
+
+    </div>    
 </template>
+
 <script>
-import AllCommentaires from "../components/AllCommentaires.vue"
-import PostCommentaire from "../components/PostCommentaire.vue"
-
+//import Message from "../components/Message.vue"
+import { mapActions, mapState } from 'vuex'
 export default {
-    data(){
-        return {
-            messageid: this.$route.params.id,
-            userid: localStorage.getItem('UserId'),
-            isAdmin: localStorage.getItem("isAdmin"),
-            
-            
-
-        }
+  //  props:["userid"],
+    mounted(){
+        console.log('test')
+        this.getMessageByUser(this.$route.params.userid) 
     },
-    props: ["id"],
-    mounted (){
-        this.$store.dispatch('getMessage', this.id)
-
+    data(){
+        return{
+            userid: this.$route.params.userid,
+            message: this.message
+        }
     },
     components: {
-        AllCommentaires,
-        PostCommentaire,
-
+     //   Message,
     },
-    computed: {
-        message(){
-            return this.$store.state.message;
-        }
+    computed:{
+        ...mapState(['messages'])
     },
-    methods:{
-          
+    methods: {
+        ...mapActions(['getMessageByUser', 'deleteMessage'])
     }
+
 }
 </script>
 <style lang="scss" scoped>
@@ -132,6 +132,4 @@ article{
         }
         
     };
- 
 </style>
-

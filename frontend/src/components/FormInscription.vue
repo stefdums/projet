@@ -37,20 +37,21 @@
         </b-form-group>
 
         <b-form-group class="form-group"
-            id="input-group-prenom"
-            label="photo-profil"
-            label-for="photo-profil">
+            id="input-group-file"
+            label="photo de profil"
+            label-for="filename">
 
-            <b-form-input type="text" name="photo-profil" id="photo-profil" ></b-form-input>
+            <b-form-file type="filename" name="filename" id="photo-profil"  ref="filename" v-on:change="handleFileUpload()"></b-form-file>
             
         </b-form-group>
 
         <b-form-group class="form-group"
             id="input-group-email"
             label="Email"
-            label-for="email">
+            label-for="email"
+            prepend="@">
 
-            <b-form-input type="email" name="email" id="email" v-model="email"></b-form-input>
+            <b-form-input  type="email" name="email" id="email" v-model="email"></b-form-input>
             
         </b-form-group>
 
@@ -84,50 +85,65 @@ export default {
     name: 'FormInscription',
     data(){
         return {
-            form: {
-                nom: null
-            },
+            
             nom: "",
             prenom: "",
-            photoProfil: "",
+            filename: "",
             email: "",
             password: "",
             
         }
     },
     methods: {
-        postInscription(){
+        postConnexion (){
             axios
-                .post('http://localhost:3000/groupomania/auth/inscription', {
-                    nom: this.nom,
-                    prenom: this.prenom,
-                    photoProfil: this.photoProfil,
+                .post('http://localhost:3000/groupomania/auth/connexion', {
                     email: this.email,
-                    password: this.password
+                    password: this.password,
                 })
-                .then(()=> {
+                .then((response)=> {   
+                    if (response.status === 200){
+                        let results = response.data
+                        localStorage.setItem('token', results.token)
+                        localStorage.setItem('UserId', results.UserId)
+                        localStorage.setItem('isAdmin', results.isAdmin)
+                        this.$router.push('/')
+                    }
+                })
+                .catch( error => { error, this.erreur = true })
+        },
+        postInscription(){
+            let formData = new FormData();
+            formData.append('nom', this.nom)
+            formData.append('prenom', this.prenom)
+            formData.append('filename', this.filename)
+            formData.append('email', this.email)
+            formData.append('password', this.password)
+            axios
+                .post('http://localhost:3000/groupomania/auth/inscription',// {
+                    // nom: this.nom,
+                    // prenom: this.prenom,
                     
+                    // email: this.email,
+                    // password: this.password,
+                    formData,
+                    {
+                        headers: {'Content-Type': 'multipart/form-data'}
+                    }
+            //    }
+                )
+                .then(()=> {
+                    console.log('test');
                     this.postConnexion()
                 })
                 .catch( error => { error })
         },
-        postConnexion (){
-                axios
-                    .post('http://localhost:3000/groupomania/auth/connexion', {
-                        email: this.email,
-                        password: this.password,
-                    })
-                    .then((response)=> {   
-                        if (response.status === 200){
-                            let results = response.data
-                            localStorage.setItem('token', results.token)
-                            localStorage.setItem('UserId', results.UserId)
-                            localStorage.setItem('isAdmin', results.isAdmin)
-                            this.$router.push('/')
-                        }
-                    })
-                    .catch( error => { error, this.erreur = true })
+        handleFileUpload(){
+            this.filename = this.$refs.file.files[0];
         }
+
+        
+        
 
     },
     computed:{

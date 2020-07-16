@@ -8,7 +8,8 @@ import Poster from '../views/Poster.vue'
 import MonCompte from '../views/MonCompte.vue'
 import CompteAdmin from '../components/CompteAdmin.vue'
 import ModifyMessage from '../components/ModifyMessage.vue'
-import ModifyComm from '../components/ModifyComm.vue'
+import ModifyComm from '../views/ModifyComm.vue'
+import MessUser from '../views/MessUser.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -24,6 +25,12 @@ Vue.use(VueRouter)
     component: Home
   },
   {
+    path:'/allmessages/:userid',
+    name: "MessUser",
+    component: MessUser,
+    props: true,
+  },
+  {
     path: '/message/:id',
     name: 'Mur',
     component: Mur,
@@ -36,7 +43,7 @@ Vue.use(VueRouter)
       children: [],
     },  
     {
-      path: "comm/modifcomm",
+      path: ":commid/",
       component: ModifyComm,
       name: "ModifyComm"
     },

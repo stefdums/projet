@@ -1,6 +1,5 @@
 <template>
     <div class="commentaires" >
-
         <div class='commentaire' v-for="commentaire in commentaires" :key="commentaire.id" :userId="commentaire.userId"> 
             <b-card 
                 :title='commentaire.User.nom + " " + commentaire.User.prenom'
@@ -9,63 +8,64 @@
                 <b-card-text>
                     <div id="text">{{ commentaire.texte }}</div>
                     
-                        <p id= "date"> {{ ((commentaire.createdAt).split('T'))[0] }}  {{ ((((commentaire.createdAt).split('T'))[1]).split('.'))[0] }}</p>
+                        <p id= "date"> {{ ((commentaire.createdAt).split('T'))[0] }} / {{ ((((commentaire.createdAt).split('T'))[1]).split('.'))[0] }}</p>
                         
                     
                 </b-card-text>
                 <b-card-footer>               
-                    <router-link :to="{name: 'ModifyComm', params: { UserId: commentaire.UserId}}" v-if="userid == commentaire.UserId"> 
-                        <b-button  class="btn-light border border-info bg-white" > &#9998; </b-button>
+                    <router-link :to="{ name:`ModifyComm`, params: { commid: commentaire.id}}" v-if="userid == commentaire.UserId" > 
+                        <b-button  class="btn-light border border-info bg-white" @click=" modify = true"> &#9998; {{ commentaire.id }}</b-button>
                     </router-link>
+
+
                     <b-button @click.prevent="deleteCommentaire({commentaire, messageid})" class="border border-danger bg-white" v-if="isAdmin == 1 || userid == commentaire.UserId"> &#10060; </b-button>
     
-                </b-card-footer>     
+                </b-card-footer>
+            <router-view class="ModifyComm" v-if="$router.currentRoute.params.commid == commentaire.id"/>     
+            <!-- <ModifyComm v-show="modify"/> -->
+            
             </b-card>          
-         
+            
+            
         </div>
              
     </div>
 </template>
 <script>
 
-import axios from 'axios'
-import { mapActions } from 'vuex'
+//import axios from 'axios'
+import { mapActions, mapState } from 'vuex'
+//import ModifyComm from '../components/ModifyComm.vue'
 export default {
     name: 'GetCommentaires',
+    props:['id'],
     data() {
         return {
-            messageid: this.$route.params.id,
-            commentaires: [],
-            commentaireid: this.id,
+        //    UserId: this.commentaire.UserId,
+        //    messageid: this.$route.params.id,
+        //    commid: route.params.commid,
             userid: localStorage.getItem('UserId'),
             isAdmin: localStorage.getItem('isAdmin'),
+            modify: false,
   
  
         }
     },
     beforeMount() {
-        this.getAllComms()
+        this.getAllComms(this.$route.params.id)
     },
     created(){
-        console.log(this.$store)
+        console.log(this.$data)
+    },
+    computed:{
+        ...mapState(['commentaires', 'commentaire'])
     },
     methods: {
-        getAllComms (){
-            axios
-            .get(`http://localhost:3000/groupomania/messages/${this.messageid}/comm` , {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            })
-            .then (response => { (console.log(this.commentaires));
-                    this.commentaires = response.data
-            })
-            .catch ( error => { error })
-        },
-        ...mapActions(['deleteCommentaire', 'modifyComm'])
+        
+        ...mapActions(['getAllComms', 'deleteCommentaire', 'modifyComm'])
     },
-    comptuted:{
- 
+    components:{
+//        ModifyComm,
     }
         
 }

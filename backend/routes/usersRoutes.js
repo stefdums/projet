@@ -13,13 +13,16 @@ router.post('/inscription',  multer,usersCtrl.inscription);
 
 router.get('/inscription', authConnexion, usersCtrl.getInscriptions)
 
-router.get('/inscription/:id', authConnexion, usersCtrl.getOneInscription)
+router.get('/inscription/:id', authConnexion, multer, usersCtrl.getOneInscription)
 
 router.put('/inscription/:id', authConnexion,  multer, usersCtrl.modifyUser)
 
 router.delete('/inscription/:id', authConnexion, usersCtrl.deleteInscription)
 
 router.post('/connexion', usersCtrl.connexion)
+
+router.get('/inscription/:id/messages', usersCtrl.getMessagesByUserId)
+
 
 
 

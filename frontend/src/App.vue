@@ -1,22 +1,39 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/connexion">Connexion</router-link> | 
-      <router-link to="/">Home</router-link> |
-      <router-link to="/poster">Poster</router-link> |
-      <router-link to="/moncompte">Mon compte</router-link> |
-      <!-- <router-link to="/moncompte" v-show="isAdmin ==0 " >Mon compte</router-link>
-      <router-link to="/compteadmin" v-show="isAdmin ==1 "> Admin </router-link> | -->
-      <router-link to="/connexion" @click.native="deconnection()">Se déconnecter </router-link>
-       <p> {{ this.UserId }}</p>
+    <b-navbar id="nav" toggleable="sm" type="light" variant="faded" sticky >
+      <router-link to="/connexion" v-show="UserId === null">Connexion</router-link>  
+      <div v-show="UserId !== null" id="nav-flex">
+        <div class="test">
 
-    </div>
+          <b-navbar-brand><router-link to="/">
+          <img src="../src/assets/icon.png" >
+            Home  </router-link></b-navbar-brand>
+
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        </div>
+        <b-collapse id="nav-collapse" is-nav>
+          
+            <b-nav-item><router-link to="/poster">Poster</router-link></b-nav-item>
+
+            <b-nav-item><router-link to="/moncompte">Mon compte</router-link></b-nav-item>
+
+            <!-- <b-nav-item><router-link :to="{ name: 'MessUser'}"> User </router-link></b-nav-item> -->
+
+            <!-- <router-link to="/moncompte" v-show="isAdmin ==0 " >Mon compte</router-link>
+            <router-link to="/compteadmin" v-show="isAdmin ==1 "> Admin </router-link> | -->
+            <b-nav-item><router-link to="/connexion" @click.native="deconnection()">Se déconnecter </router-link></b-nav-item>
+          
+        </b-collapse> 
+      </div>
+
+    </b-navbar>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
+  props:["userid"],
   data(){
     return{
        UserId: localStorage.getItem('UserId'),
@@ -59,8 +76,34 @@ body{
 }
 
 #nav {
+  
   padding: 30px;
-
+  background-color: #ffd7d7;
+  width: 100%;
+  justify-content: center;
+  
+  #nav-flex{
+    width: 100%;
+    // display:flex;
+    // justify-content: center;
+  }
+  .navbar-brand{
+    flex-basis: min-width;
+  }
+  img{
+    width:40px;
+    border: 3px solid #D1515A;
+    border-radius: 25px;
+  }
+  
+  .test{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  #nav-collapse{
+    flex-basis: 200% !important;
+  }
   a {
     font-weight: bold;
     color: #091F43;
@@ -68,6 +111,16 @@ body{
     &.router-link-exact-active {
       color: #D1515A;
     }
+  }
+  li{
+    list-style: none;
+  }
+}
+@media (min-width: 576px){
+  #nav-flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 }
 

@@ -37,6 +37,7 @@ export default {
                             localStorage.setItem('UserId', results.UserId)
                             localStorage.setItem('isAdmin', results.isAdmin)
                             this.$router.push('/')
+                            location.reload()
                         
                     })
                     .catch( error => { error, this.erreur = true })

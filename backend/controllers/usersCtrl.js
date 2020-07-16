@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models').User
+const Message = require('../models').Message
 require('dotenv').config();
 const fs = require('fs')
 
@@ -31,7 +32,7 @@ exports.inscription = (req, res, next)=>{
             nom: cleanNom,
             prenom: cleanPrenom,
             email: req.body.email,
-            photoProfil: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`, //req.file.filname a la place de body
+            photoProfil: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`, //req.file.filename a la place de body
             password: hash,    
         })
         .then(()=> res.status(201).json({ message: 'utilisateur créée'}))
@@ -202,4 +203,23 @@ exports.modifyUser = (req, res, next)=>{
         }   
     })
     .catch( error => res.status(500).json({ error }))
+}
+/**
+ * GET tout les messages par UserId
+ */
+exports.getMessagesByUserId = (req, res, next)=>{
+    let order = req.query.order
+    Message.findAll({
+        where: { UserId: req.params.id },
+        order: [(order != null) ? order.split(':') : [ 'createdAt', 'DESC' ]],
+
+        include: [{
+            model: User,
+            attributes: [ 'nom', 'prenom' ]
+
+        }]
+        
+    })
+    .then(messages => res.status(200).json(messages))
+    .catch(error => res.status(400).json({ error })); //syntaxe invalide
 }

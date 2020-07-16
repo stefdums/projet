@@ -32,9 +32,17 @@ export default {
 
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.all-messages{
+    width: 60%;
+}
 
-
+@media (max-width: 576px) {
+    .all-messages {
+        width: 100%
+    }
+        
+}
 
 
 </style>

@@ -1,7 +1,8 @@
 <template>
     <div class="card" style="width: 18rem;">
         <b-card v-for="user in users" :key="user.id" :id="user.id">
-            <h5 class="card-title">{{ user.nom }} {{ user.prenom }}</h5>
+            <router-link :to="{ name: 'MessUser', params:{ userid: user.id }}"> <h5 class="card-title">{{ user.nom }} {{ user.prenom }}</h5> </router-link>
+            
             <h6 class="card-subtitle mb-2 text-muted" v-if="user.isAdmin == 1">est administrateur</h6>
             
             <b-card-text id="email"> {{ user.email }}</b-card-text>

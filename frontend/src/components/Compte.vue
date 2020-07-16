@@ -6,6 +6,7 @@
             
             <b-card-text id="email"> {{ user.email }}</b-card-text>
             <b-card-text id="date">date de création: {{ ((user.createdAt).split('T'))[0] }}</b-card-text>
+            <p>{{ user.photoProfil }}</p>
    
                
                 
@@ -44,7 +45,9 @@ export default {
             .then (response => {  
                 this.user = response.data     
             })
-            .catch ( error => { error })  
+            .catch ( error => { 
+                error;
+                this.$router.push({name: 'Connexion'}) })  
         },
         
           

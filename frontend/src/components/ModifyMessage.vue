@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-card>
+  <div id="div-modif">
+    <b-card id="card-modif">
         <b-form>
             <h4>Modifiez votre message</h4>
             <label for="titre">Nouveau titre : </label>
@@ -10,8 +10,8 @@
             <b-form-input type="url" name="imageurl" id="image" v-model="message.imageUrl" ></b-form-input>
                 
             
-        <b-card-footer>
-            <b-button variant="success" @click="modifyMessage({ message, messageid, UserId })">
+        <b-card-footer id='modif'>
+            <b-button id='btn-modif' class="border border-info bg-white" @click="modifyMessage({ message, messageid, UserId })">
                         Modifiez
             </b-button>
             <router-link :to="{name: 'Mur'}">
@@ -45,11 +45,23 @@ import { mapActions } from 'vuex'
     },
     methods: {
         ...mapActions(['modifyMessage']),
-        close(){
-          return 
-        }
 
-    
     }
   }
 </script>
+<style lang="scss" scoped>
+#card-modif{
+  width: 100%;
+}
+#div-modif {
+  width: 100%;
+
+}
+#modif{
+  display: flex;
+  justify-content: space-around;
+}
+#btn-modif{
+  color: #091F43
+}
+</style>

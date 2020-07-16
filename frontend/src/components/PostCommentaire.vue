@@ -15,7 +15,7 @@
             <label for="imageComm">Le lien de l'image :</label>
             <b-form-input type="url" name="imageComm"  id="image-comm" placeholder="Lien de l'image" v-model="imageComm"></b-form-input>
 
-            <b-button id="envoi-comm" @click.prevent="postCommentaire({messageid, texte, imageComm })" value="validation" class="bg-light btn-light"> envoyer </b-button>
+            <b-button id="envoi-comm"  @click.prevent="postCommentaire({messageid, texte, imageComm })" value="validation" class="bg-light btn-light border-primary" > envoyer </b-button>
         </form>
         
 
@@ -46,7 +46,7 @@ export default {
 }
 #envoi-comm{
     margin-top: 10px;
-    border-color: #D1515A;
+//    border-color: #D1515A;
 
 }
     
