@@ -12,7 +12,7 @@ export default new Vuex.Store({
     messages: [],
     message: null,
     commentaires: [],
-    commentaire: {}
+    commentaire: { }
    
 
   },
@@ -47,6 +47,9 @@ export default new Vuex.Store({
     },
     GET_COMMS (state, commentaires){
       state.commentaires = commentaires
+    },
+    GET_COMM_ID (state, commentaire){
+      state.commentaire = commentaire
     },
     MODIF_MESS (state, message){
       state.message = message
@@ -284,14 +287,16 @@ export default new Vuex.Store({
      */
     postCommentaire ({ commit }, form){
         axios
-            .post(`http://localhost:3000/groupomania/messages/${form.messageid}/comm`, {
+            .post(`http://localhost:3000/groupomania/messages/${form.messageid}/comm`, 
+              {
                 texte: form.texte,
-                imageComm: form.imageComm},
-                {
-                    headers:{
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                }  
+                imageComm: form.imageComm
+              },
+              {
+                  headers:{
+                      Authorization: `Bearer ${localStorage.getItem('token')}`
+                  }
+              }  
             )
             .then(()=> { 
               commit('POST_COMM') 
@@ -326,6 +331,28 @@ export default new Vuex.Store({
      * 
      * @param {*} param0 
      * @param {*} data 
+     * GET commentaire By Id
+     */
+    // getCommById ({ commit }, data){
+    //   console.log(data)
+    //   axios
+    //     .get(`http://localhost:3000/groupomania/messages/${data.messageid}/comm/${data.commid}` , {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem('token')}`
+    //       }
+    //     })
+    //     .then( response => { 
+    //       let commentaire = response.data         
+    //       commit('GET_COMM_ID', commentaire)
+    //       console.log(response)
+    //     })
+    //     .catch( error => { error })
+      
+    // },
+    /**
+     * 
+     * @param {*} param0 
+     * @param {*} data 
      * PUT son message
      */
     modifyMessage({ commit }, data){
@@ -350,11 +377,8 @@ export default new Vuex.Store({
         )
         .then(()=>{
           commit('MODIF_MESS')
-        })
-        
+        }) 
         .then(()=>  router.push({ name: 'Home'}))
-        .then(()=> console.log('test' ))
-        .then(()=> console.log('coucouazzre'))
         .catch( error => { error })
       }
     },
@@ -388,7 +412,10 @@ export default new Vuex.Store({
           console.log(data.commentaire)
 
         })
-        .then(()=> { router.push({ name: 'Mur' })})
+        .then(()=> { 
+          router.push({ name: 'Mur' })
+          location.reload(true)
+        })
         .catch( error => { error })
     //  }
     },

@@ -4,6 +4,7 @@
             <router-link :to="{ name: 'MessUser', params:{ userid: user.id }}"> <h5 class="card-title">{{ user.nom }} {{ user.prenom }}</h5> </router-link>
             
             <h6 class="card-subtitle mb-2 text-muted" v-if="user.isAdmin == 1">est administrateur</h6>
+            <img :src="user.photoProfil" class="image">
             
             <b-card-text id="email"> {{ user.email }}</b-card-text>
             <b-card-text id="date">date de création: {{ ((user.createdAt).split('T'))[0] }}</b-card-text>
@@ -46,3 +47,12 @@ export default {
     }  
 }
 </script>
+<style lang="scss" scoped>
+    .image{
+        border-radius: 50px;
+        width: 100px;
+        margin-bottom: 10px;
+
+        
+    }
+</style>

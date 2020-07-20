@@ -10,11 +10,13 @@
             class="md-2"            
             >
             <b-cart-text class="cart-text">
-
-                <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>
+                <div class="user">
+                    <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>
+                    <img :src="message.User.photoProfil" class="image">
+                </div> 
                 <router-link :to="{name:'ModifyMessage'}" v-if="userid == message.UserId" ><b-button  class="border border-info bg-white">&#9998; </b-button></router-link>
                 
-                <b-button  @click.prevent="deleteMessage()" v-if="userid == message.UserId  || isAdmin == 1" class="border border-danger bg-white"> &#10060; </b-button> 
+                <b-button  @click.prevent="deleteMessage(message)" v-if="userid == message.UserId  || isAdmin == 1" class="border border-danger bg-white"> &#10060; </b-button> 
                 
             </b-cart-text>
             <b-card-footer>
@@ -37,7 +39,7 @@
 <script>
 import AllCommentaires from "../components/AllCommentaires.vue"
 import PostCommentaire from "../components/PostCommentaire.vue"
-
+import { mapActions } from "vuex"
 export default {
     data(){
         return {
@@ -65,7 +67,7 @@ export default {
         }
     },
     methods:{
-          
+        ...mapActions([ 'deleteMessage' ]),  
     }
 }
 </script>
@@ -109,7 +111,7 @@ article{
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        align-items: baseline;
+        align-items: center;
             
         .btn{
                 font-weight: bold;
@@ -117,6 +119,13 @@ article{
                 background-color: #D1515A
             }
     }        
+};
+.image{
+        border-radius: 50px;
+        width: 65px;
+        margin-bottom: 10px;
+
+        
 };
 
     .card-footer{

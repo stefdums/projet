@@ -13,7 +13,7 @@
                     
                 </b-card-text>
                 <b-card-footer>               
-                    <router-link :to="{ name:`ModifyComm`, params: { commid: commentaire.id}}" v-if="userid == commentaire.UserId" > 
+                    <router-link :to="{ name:`ModifyComm`, params: { commid: commentaire.id, messageid: commentaire.MessageId}}" v-if="userid == commentaire.UserId" > 
                         <b-button  class="btn-light border border-info bg-white" @click=" modify = true"> &#9998; {{ commentaire.id }}</b-button>
                     </router-link>
 
@@ -42,8 +42,8 @@ export default {
     data() {
         return {
         //    UserId: this.commentaire.UserId,
-        //    messageid: this.$route.params.id,
-        //    commid: route.params.commid,
+            messageid: this.$route.params.id,
+        //    commid: this.$data.commentaire.id,
             userid: localStorage.getItem('UserId'),
             isAdmin: localStorage.getItem('isAdmin'),
             modify: false,
@@ -55,14 +55,14 @@ export default {
         this.getAllComms(this.$route.params.id)
     },
     created(){
-        console.log(this.$data)
+        console.log(this)
     },
     computed:{
         ...mapState(['commentaires', 'commentaire'])
     },
     methods: {
         
-        ...mapActions(['getAllComms', 'deleteCommentaire', 'modifyComm'])
+        ...mapActions(['getAllComms', 'deleteCommentaire', 'modifyComm', 'getCommById'])
     },
     components:{
 //        ModifyComm,

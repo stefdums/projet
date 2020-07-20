@@ -3,7 +3,7 @@
             :hearder= '"message.User.nom" + "message.User.prenom"'
             :title="message.titreImage"
             :img-src="message.imageUrl"
-            img-alt="message.titreImage"
+            :img-alt="message.titreImage"
             img-top
             tag="article"          
             class="md-2 card"
@@ -11,8 +11,10 @@
         >
             
             <b-card-text class= "user">
+                <img :src="message.User.photoProfil" class="image">
                 {{ message.User.nom }} {{ message.User.prenom }}                        
             </b-card-text>
+            
 
             <b-link :to="{name: 'Mur', params: { id: message.id }}" tag="button" class="btn">
                     Afficher 
@@ -71,27 +73,35 @@ export default {
     }
     .card-body{
         padding-bottom: 14px;
-        .card-title{
-   
-            margin-bottom: 0px;
-            font-weight: bold !important;  
-            padding-bottom: 1rem;
-            background-size: 0 100%;
-            background: linear-gradient(to top, #D1515A 0%, #D1515A 4px, transparent 6px) no-repeat;
-           
-        };
-        b-cart-text{
-                display: flex;
-                justify-content: space-around;
-                margin-top: 10px;
-                
-            };
-        .btn{
-                font-weight: bold;
-                color: #091F43;
-                background-color: #ffd7d7;
-            };
+    };   
+    .card-title{
+
+        margin-bottom: 0px;
+        font-weight: bold !important;  
+        padding-bottom: 1rem;
+        background-size: 0 100%;
+        background: linear-gradient(to top, #D1515A 0%, #D1515A 4px, transparent 6px) no-repeat;
+        
     };
+    .user{
+        margin-top: 10px;
+        justify-content: space-evenly;
+        display: flex;
+        align-items: center;
+            
+    };
+    .image{
+        width: 50px;
+        border-radius: 25px;
+
+
+    };
+    .btn{
+            font-weight: bold;
+            color: #091F43;
+            background-color: #ffd7d7;
+    };
+    
     .card-footer{
        
         display: flex;

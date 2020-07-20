@@ -39,9 +39,13 @@
         <b-form-group class="form-group"
             id="input-group-file"
             label="photo de profil"
-            label-for="filename">
+            label-for="photoProfil"
+            
+            >
 
-            <b-form-file type="filename" name="filename" id="photo-profil"  ref="filename" v-on:change="handleFileUpload()"></b-form-file>
+            <b-form-file type="file" placeholder = "placez votre photo de profil" ref='file'
+            v-model='photoProfil'
+             @change="handleFileUpload"></b-form-file>
             
         </b-form-group>
 
@@ -61,11 +65,15 @@
             label-for="password">
 
             <b-form-input type="password" name="password" id="password" v-model="password" :state="validationPassword"></b-form-input>
-            <b-form-invalid-feedback :state="validationPassword">
+            <b-form-invalid-feedback 
+           
+            >
                     Mot de passe valide non conforme
             </b-form-invalid-feedback>
 
-            <b-form-valid-feedback :state="validationPassword">
+            <b-form-valid-feedback 
+           
+            >
                     Mot de passe non valide
             </b-form-valid-feedback>
 
@@ -88,13 +96,19 @@ export default {
             
             nom: "",
             prenom: "",
-            filename: "",
+            photoProfil: "null",
             email: "",
             password: "",
             
         }
     },
     methods: {
+        handleFileUpload(){
+              this.photoProfil = this.$refs.file.$refs.input.files[0]
+        //    this.photoProfil = event.target.files[0];
+            console.log(this.photoProfil)
+            
+            },
         postConnexion (){
             axios
                 .post('http://localhost:3000/groupomania/auth/connexion', {
@@ -108,39 +122,63 @@ export default {
                         localStorage.setItem('UserId', results.UserId)
                         localStorage.setItem('isAdmin', results.isAdmin)
                         this.$router.push('/')
+                        location.reload()
                     }
                 })
                 .catch( error => { error, this.erreur = true })
         },
         postInscription(){
+
+
+        
             let formData = new FormData();
             formData.append('nom', this.nom)
             formData.append('prenom', this.prenom)
-            formData.append('filename', this.filename)
+            formData.append('image', this.photoProfil)
             formData.append('email', this.email)
             formData.append('password', this.password)
+
+            // let object = {};
+            //     formData.forEach(function(value, key){
+            //     object[key] = value; 
+            // });
+            // let json = JSON.stringify({"nom":this.nom, "prenom": this.prenom, 'image': this.photoProfil, 'email': this.email, 'password': this.password});
+            // console.log('test')
             axios
-                .post('http://localhost:3000/groupomania/auth/inscription',// {
+                .post('http://localhost:3000/groupomania/auth/inscription', 
+                    // {
                     // nom: this.nom,
                     // prenom: this.prenom,
-                    
                     // email: this.email,
+                    // photoProfil: this.photoProfil.name,
                     // password: this.password,
+                     
+                    // },
                     formData,
-                    {
-                        headers: {'Content-Type': 'multipart/form-data'}
+                
+                    //json,
+                    
+                     {
+                         headers: {'Content-Type': 
+                         'multipart/form-data',
+                        // 'application/json'
+                        
+                        
+                        }
                     }
-            //    }
+                
                 )
-                .then(()=> {
-                    console.log('test');
+                .then((response)=> {  
+                    console.log(response)
                     this.postConnexion()
+                    
                 })
                 .catch( error => { error })
+
+            
+                
         },
-        handleFileUpload(){
-            this.filename = this.$refs.file.files[0];
-        }
+        
 
         
         

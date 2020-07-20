@@ -22,7 +22,7 @@
             <!-- <router-link to="/moncompte" v-show="isAdmin ==0 " >Mon compte</router-link>
             <router-link to="/compteadmin" v-show="isAdmin ==1 "> Admin </router-link> | -->
             <b-nav-item><router-link to="/connexion" @click.native="deconnection()">Se déconnecter </router-link></b-nav-item>
-          
+            <p>{{ this.$store.state.user.photoProfil }}</p>
         </b-collapse> 
       </div>
 
@@ -33,12 +33,16 @@
 
 <script>
 export default {
-  props:["userid"],
+
   data(){
     return{
-       UserId: localStorage.getItem('UserId'),
+      UserId: localStorage.getItem('UserId'),
+   
 
     }
+  },
+  created(){
+    console.log(this)
   },
   methods: {
     deconnection(){

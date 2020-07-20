@@ -14,9 +14,7 @@ const clean = require('xss-clean/lib/xss').clean
  * POST INSCRIPTION
  */
 exports.inscription = (req, res, next)=>{
-
-    const cleanNom = clean((req.body.nom).toUpperCase())
-    const cleanPrenom = clean((req.body.prenom).toLowerCase())
+    
 
     // if (regexMail.test(req.body.email)){
     //     return res.status(400).json({ error: 'email non conforme' })
@@ -25,18 +23,34 @@ exports.inscription = (req, res, next)=>{
     //     return res.status(400).json({ error: ' Mot de passe nom conforme ' })
     // } 
     bcrypt.hash(req.body.password, 10)
-    
+
     .then(hash => {
-        
-        User.create({
-            nom: cleanNom,
-            prenom: cleanPrenom,
-            email: req.body.email,
-            photoProfil: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`, //req.file.filename a la place de body
-            password: hash,    
-        })
-        .then(()=> res.status(201).json({ message: 'utilisateur créée'}))
-        .catch(error => res.status(400).json({error})) //syntaxe invalide
+    //    const userObject = JSON.parse(req.body)
+        const cleanNom = clean((req.body.nom).toUpperCase())
+        const cleanPrenom = clean((req.body.prenom).toLowerCase())
+        if(req.file){
+            User.create({
+                nom: cleanNom,
+                prenom: cleanPrenom,
+                email: req.body.email,
+                password: hash,
+                photoProfil: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, //req.file.filename a la place de body
+                    
+            })
+            .then(()=> res.status(201).json({ message: 'utilisateur créée'}))
+            .catch(error => res.status(400).json({error})) //syntaxe invalide
+        }
+        else{
+            User.create({
+                nom: cleanNom,
+                prenom: cleanPrenom,
+                email: req.body.email,
+                password: hash,
+                photoProfil: `${req.protocol}://${req.get('host')}/images/user_profil_default.png`,  
+            })
+            .then(()=> res.status(201).json({ message: 'utilisateur créée'}))
+            .catch(error => res.status(400).json({error})) //syntaxe invalide
+        }    
     })
     .catch(error =>{ console.log(error);res.status(500).json({error})}) //Le serveur a rencontré une situation qu'il ne sait pas traiter.
 }
