@@ -7,16 +7,18 @@
             img-top
             tag="article"          
             class="md-2 card"
-            :to="{name: 'Mur', params: { id: message.id }}"  
+            :to="{name: 'LeMessage', params: { id: message.id }}"  
         >
             
             <b-card-text class= "user">
-                <img :src="message.User.photoProfil" class="image">
+                <div id='div-photo-profil'>
+                    <img :src="message.User.photoProfil" id="photo-profil">
+                </div>    
                 {{ message.User.nom }} {{ message.User.prenom }}                        
             </b-card-text>
             
 
-            <b-link :to="{name: 'Mur', params: { id: message.id }}" tag="button" class="btn">
+            <b-link :to="{name: 'LeMessage', params: { id: message.id }}" tag="button" class="btn">
                     Afficher 
             </b-link>
         
@@ -90,12 +92,23 @@ export default {
         align-items: center;
             
     };
-    .image{
-        width: 50px;
-        border-radius: 25px;
-
-
-    };
+    #div-photo-profil{
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    flex-shrink: 0;
+    user-select: none;
+    border-radius: 50%;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    }
+    #photo-profil{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        text-align: center;
+    }
     .btn{
             font-weight: bold;
             color: #091F43;

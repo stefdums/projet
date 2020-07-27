@@ -43,9 +43,13 @@
             
             >
 
-            <b-form-file type="file" placeholder = "placez votre photo de profil" ref='file'
-            v-model='photoProfil'
-             @change="handleFileUpload"></b-form-file>
+            <b-form-file 
+                type="file" 
+                placeholder = "placez votre photo de profil" 
+                ref='file'
+                v-model='photoProfil'
+                @change="handleFileUpload">
+            </b-form-file>
             
         </b-form-group>
 
@@ -66,18 +70,19 @@
 
             <b-form-input type="password" name="password" id="password" v-model="password" :state="validationPassword"></b-form-input>
             <b-form-invalid-feedback 
-           
             >
-                    Mot de passe valide non conforme
+                Mot de passe valide non conforme
             </b-form-invalid-feedback>
 
-            <b-form-valid-feedback 
-           
+            <b-form-valid-feedback           
             >
-                    Mot de passe non valide
+                Mot de passe valide
             </b-form-valid-feedback>
 
-            </b-form-group>
+            <b-form-text id="password-help-block">
+                Votre mot de passe doit contenir: 1 minuscule, 1 majuscule, 1 caractere numeric, 1 caractere spécial et contenir au minimum 10 caracteres 
+            </b-form-text>
+        </b-form-group>
 
         <b-button id="bouton-valid" value="validation" @click.prevent="postInscription()" class="btn-light bg-light">
             Validez l'incription
@@ -96,19 +101,16 @@ export default {
             
             nom: "",
             prenom: "",
-            photoProfil: "null",
+            photoProfil: null,
             email: "",
-            password: "",
-            
+            password: "",    
         }
     },
     methods: {
         handleFileUpload(){
-              this.photoProfil = this.$refs.file.$refs.input.files[0]
-        //    this.photoProfil = event.target.files[0];
-            console.log(this.photoProfil)
-            
-            },
+            this.photoProfil = this.$refs.file.$refs.input.files[0]
+           
+        },
         postConnexion (){
             axios
                 .post('http://localhost:3000/groupomania/auth/connexion', {
@@ -128,9 +130,7 @@ export default {
                 .catch( error => { error, this.erreur = true })
         },
         postInscription(){
-
-
-        
+      
             let formData = new FormData();
             formData.append('nom', this.nom)
             formData.append('prenom', this.prenom)
@@ -138,45 +138,24 @@ export default {
             formData.append('email', this.email)
             formData.append('password', this.password)
 
-            // let object = {};
-            //     formData.forEach(function(value, key){
-            //     object[key] = value; 
-            // });
-            // let json = JSON.stringify({"nom":this.nom, "prenom": this.prenom, 'image': this.photoProfil, 'email': this.email, 'password': this.password});
-            // console.log('test')
             axios
                 .post('http://localhost:3000/groupomania/auth/inscription', 
-                    // {
-                    // nom: this.nom,
-                    // prenom: this.prenom,
-                    // email: this.email,
-                    // photoProfil: this.photoProfil.name,
-                    // password: this.password,
-                     
-                    // },
+
                     formData,
-                
-                    //json,
-                    
+
                      {
                          headers: {'Content-Type': 
                          'multipart/form-data',
-                        // 'application/json'
-                        
-                        
+
                         }
-                    }
-                
+                    }                
                 )
                 .then((response)=> {  
                     console.log(response)
                     this.postConnexion()
                     
                 })
-                .catch( error => { error })
-
-            
-                
+                .catch( error => { error })       
         },
         
 
@@ -192,11 +171,11 @@ export default {
         validationPrenom(){
             let regexText = /^[a-zA-Zéèçîï][a-zA-Zéèêçîï]+([a-zA-Zéèêçîï\-'\s]+)$/; 
             return regexText.test(this.prenom)
-        }
+        },
         // validationPassword(){
         //     let regexPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{10,})/;
         //     return regexPwd.test(this.password)
-        // }
+        // },
     }
 
 } 

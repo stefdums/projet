@@ -33,5 +33,7 @@ export default {
 }
 .compte-admin{
     width: 60%;
+
 }
+
 </style>

@@ -4,21 +4,24 @@
         <b-form>
             <h4>Modifiez votre message</h4>
             <label for="titre">Nouveau titre : </label>
-            <b-form-input type="text" name="titre" id="titre" v-model="message.titreImage" ></b-form-input>
+            <b-form-input type="text" name="titre" id="titre" v-model="message.titreImage" >
+            </b-form-input>
             
-            <label for="image"> Mettre le nouveau lien de l'image </label>
-            <b-form-input type="url" name="imageurl" id="image" v-model="message.imageUrl" ></b-form-input>
-                
+            <!-- <label for="imageurl"> Mettre le nouveau lien de l'image </label>
+            <b-form-input type="url" name="imageurl" id="imageurl" v-model='message.imageUrl' >
+            </b-form-input> -->
+                            
             
         <b-card-footer id='modif'>
-            <b-button id='btn-modif' class="border border-info bg-white" @click="modifyMessage({ message, messageid, UserId })">
+            <b-button id='btn-modif' class="border border-info bg-white" @click="modifyMessage({ message, messageid, UserId,  })">
                         Modifiez
             </b-button>
-            <router-link :to="{name: 'Mur'}">
+            <router-link :to="{name: 'LeMessage'}">
               <b-button > Annuler </b-button>
             </router-link>
         </b-card-footer>
-        </b-form>
+
+      </b-form>
     </b-card>
   </div>
 </template>
@@ -27,11 +30,10 @@
 import { mapActions } from 'vuex'
   export default {
     props: ["id"],
-    created(){
-        console.log(this.$store.state.message.UserId)
-    },  
+     
     data() {
       return {
+        status: null,
         messageid: this.$route.params.id,
         userid: localStorage.getItem('UserId'),
         isAdmin: localStorage.getItem("isAdmin"),

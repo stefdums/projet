@@ -16,12 +16,12 @@ const clean = require('xss-clean/lib/xss').clean
 exports.inscription = (req, res, next)=>{
     
 
-    // if (regexMail.test(req.body.email)){
-    //     return res.status(400).json({ error: 'email non conforme' })
-    // } 
-    // if (regexPwd.test(req.body.password)){
-    //     return res.status(400).json({ error: ' Mot de passe nom conforme ' })
-    // } 
+    if (regexMail.test(req.body.email)){
+        return res.status(400).json({ error: 'email non conforme' })
+    } 
+    if (regexPwd.test(req.body.password)){
+        return res.status(400).json({ error: ' Mot de passe nom conforme ' })
+    } 
     bcrypt.hash(req.body.password, 10)
 
     .then(hash => {
@@ -34,7 +34,7 @@ exports.inscription = (req, res, next)=>{
                 prenom: cleanPrenom,
                 email: req.body.email,
                 password: hash,
-                photoProfil: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, //req.file.filename a la place de body
+                photoProfil: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
                     
             })
             .then(()=> res.status(201).json({ message: 'utilisateur créée'}))

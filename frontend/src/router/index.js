@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from "../views/Home.vue"
 import Connexion from '../views/Connexion.vue'
-import Mur from '../views/Mur.vue'
+import LeMessage from '../views/LeMessage.vue'
 //import GetCommentaires from '../components/GetCommentaires.vue'
 import Poster from '../views/Poster.vue'
 import MonCompte from '../views/MonCompte.vue'
@@ -32,8 +32,8 @@ Vue.use(VueRouter)
   },
   {
     path: '/message/:id',
-    name: 'Mur',
-    component: Mur,
+    name: 'LeMessage',
+    component: LeMessage,
     props: true,
     children: [
     { 
@@ -43,7 +43,7 @@ Vue.use(VueRouter)
       children: [],
     },  
     {
-      path: ":commid/",
+      path: ":commid",
       component: ModifyComm,
       name: "ModifyComm"
     },

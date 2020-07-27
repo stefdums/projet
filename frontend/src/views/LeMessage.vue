@@ -1,7 +1,7 @@
 <template>
     <div class="section">
            <b-card
-            :hearder= '"message.User.nom" + "message.User.prenom"'
+            
             :title="message.titreImage"
             :img-src="message.imageUrl"
             :img-alt="message.titreImage"
@@ -9,16 +9,18 @@
             tag="article"          
             class="md-2"            
             >
-            <b-cart-text class="cart-text">
+            <b-card-text class="cart-text">
                 <div class="user">
-                    <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>
-                    <img :src="message.User.photoProfil" class="image">
+                    <p> {{ message.User.nom }} {{ message.User.prenom }}</p>
+                    <div id='div-photo-profil'> 
+                        <img :src="message.User.photoProfil" :alt="message.User.nom" id="photo-profil">
+                    </div>
                 </div> 
-                <router-link :to="{name:'ModifyMessage'}" v-if="userid == message.UserId" ><b-button  class="border border-info bg-white">&#9998; </b-button></router-link>
+                <router-link :to="{name:'ModifyMessage'}" v-if="userid == message.UserId" ><b-button  class="border border-info bg-white">&#9998;</b-button></router-link>
                 
                 <b-button  @click.prevent="deleteMessage(message)" v-if="userid == message.UserId  || isAdmin == 1" class="border border-danger bg-white"> &#10060; </b-button> 
                 
-            </b-cart-text>
+            </b-card-text>
             <b-card-footer>
 
                 <p class= "nbCommentaires">nombre de commentaires: {{ message.nbCommentaires}}</p>
@@ -33,21 +35,22 @@
      <!-- lien pour modifier le message -->       
         <router-view v-if="this.$route.params.commid == null"></router-view>
         <PostCommentaire/>    
-        <all-commentaires class="all-commentaires"/>
+        <!-- <all-commentaires class="all-commentaires"/> -->
+        <GetCommentaires/>
     </div>
 </template>
 <script>
-import AllCommentaires from "../components/AllCommentaires.vue"
+//import AllCommentaires from "../components/AllCommentaires.vue"
 import PostCommentaire from "../components/PostCommentaire.vue"
+import GetCommentaires from "../components/GetCommentaires.vue"
 import { mapActions } from "vuex"
 export default {
+    name: 'LeMessage',
     data(){
         return {
             messageid: this.$route.params.id,
             userid: localStorage.getItem('UserId'),
             isAdmin: localStorage.getItem("isAdmin"),
-            
-            
 
         }
     },
@@ -57,8 +60,9 @@ export default {
 
     },
     components: {
-        AllCommentaires,
+    //    AllCommentaires,
         PostCommentaire,
+        GetCommentaires,
 
     },
     computed: {
@@ -120,13 +124,23 @@ article{
             }
     }        
 };
-.image{
-        border-radius: 50px;
-        width: 65px;
-        margin-bottom: 10px;
-
-        
-};
+    #div-photo-profil{
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    flex-shrink: 0;
+    user-select: none;
+    border-radius: 50%;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    }
+    #photo-profil{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        text-align: center;
+    }
 
     .card-footer{
        

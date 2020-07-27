@@ -7,7 +7,16 @@
                 label="titre: "
                 label-for="titre"
             >    
-                <b-form-input type="text" v-model="titreImage" name="titre" id="titre" required="required"></b-form-input>
+                <b-form-input type="text" v-model="titreImage" name="titre" id="titre" :state="validationTitre"></b-form-input>
+
+                <b-form-valid-feedback :state="validationTitre">
+                    titre ok
+                </b-form-valid-feedback>
+
+                <b-form-invalid-feedback :state="validationTitre">
+                    titre obligatoire
+                </b-form-invalid-feedback>
+                
             </b-form-group>
 
             <b-form-group label="type d'envoi">
@@ -22,57 +31,83 @@
                 v-show="selected === 'url'"               
             >
                 <b-form-input type="url" v-model="imageUrl" name="imageurl" id="image" ></b-form-input>
+                <b-form-valid-feedback :state="validationImageUrl">
+                    lien ok
+                </b-form-valid-feedback>
+
+                <b-form-invalid-feedback :state="validationImageUrl">
+                    Le lien n'est pas conforme
+                </b-form-invalid-feedback>
             </b-form-group>
 
             <b-form-group class="form-group"
-            v-show="selected === 'upload'"
-            id="input-group-file"
-            label="image à upload"
-            label-for="imageUrl"
-            
+                v-show="selected === 'upload'"
+                id="input-group-file"
+                label="image à upload"
+                label-for="imageUrl"           
             >
 
-                <b-form-file type="file" placeholder = "placez votre image " ref='file'
-                v-model='imageUrl'
-                @change="handleFileUpload"></b-form-file>
+                <b-form-file 
+                    type="file" 
+                    placeholder = "placez votre image " 
+                    ref='file' 
+                    name="imageurl"
+                    v-model='imageUrl'
+                    @change="handleFileUpload"
+                    :state="validationImage"
+                ></b-form-file>
+
+                <b-form-valid-feedback :state="validationImage">
+                    image ok
+                </b-form-valid-feedback>
+
+                <b-form-invalid-feedback :state="validationImage">
+                    image obligatoire
+                </b-form-invalid-feedback>
             
             </b-form-group>
 
-            <b-button id="bouton-valid" @click.prevent="postMessage()" value ="validation" class="btn btn-light bg-light">
+            
+
+           
+
+            <b-button id="bouton-valid" @click.prevent="postMessage({ imageUrl, titreImage })" value ="validation" class="btn btn-light bg-light">
             Envoyer </b-button>
 
         </form>   
     </div>
 </template>
 <script>
-import axios from 'axios'
+
+import { mapActions } from 'vuex'
 
 export default {
     data (){
         return {
             selected: null,
+            imageUrl: " ",
+            titreImage: " ",
         }
     },
+
     methods: {
-        postMessage (){
-            console.log('test')
-            axios
-                .post('http://localhost:3000/groupomania/messages', {
-                    titreImage: this.titreImage,
-                    imageUrl: this.imageUrl},
-                    {
-                        headers:{
-                            Authorization: `Bearer ${localStorage.getItem('token')}`
-                        }
-                    }  
-                )
-                .then(()=> {
-                    console.log('test2')
-                    this.$router.push('/')               
-                })
-                .catch( error => { error })
-        }
-  
+        handleFileUpload(){
+            this.imageUrl = this.$refs.file.$refs.input.files[0]            
+        },
+        ...mapActions(['postMessage']),  
+    },
+    computed: {
+        validationTitre(){
+            return this.titreImage.length > 2
+        },
+        validationImageUrl(){
+            let regexUrl = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
+            return  regexUrl.test(this.imageUrl)
+            
+        },
+        validationImage(){
+            return this.imageUrl != " "
+        },
     }
 }
 </script>

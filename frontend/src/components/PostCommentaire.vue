@@ -9,11 +9,68 @@
                 placeholder="Votre commentaire"
                 rows="3"
                 max-rows="6"
-                max-width= 60%;
-            ></b-form-textarea>
+                required
+                :state="validationTexte"
+            >
+                
+            
+            </b-form-textarea>
 
-            <label for="imageComm">Le lien de l'image :</label>
-            <b-form-input type="url" name="imageComm"  id="image-comm" placeholder="Lien de l'image" v-model="imageComm"></b-form-input>
+            <b-form-valid-feedback :state="validationTexte">
+                texte ok
+            </b-form-valid-feedback>
+
+            <b-form-invalid-feedback blur:state="validationTexte">
+                texte obligatoire
+            </b-form-invalid-feedback>
+
+            <b-form-group label="type d'envoi">
+                <b-form-radio v-model="selected" id="url" name="image-upload" value="url">Lien de l'image</b-form-radio>
+                <b-form-radio v-model="selected" id="upload" name="image-upload" value="upload">image à upload</b-form-radio>
+            </b-form-group>
+
+            <b-form-group class="form-group"
+                id="input-group-url"
+                label="lien de l'image: "
+                label-for="imageurl"
+                v-show="selected === 'url'"               
+            >
+                <b-form-input 
+                    type="url" 
+                    v-model="imageComm" 
+                    name="imageurl" 
+                    id="image" 
+                    :state="validationImageUrl"
+                >
+                </b-form-input>
+                <b-form-valid-feedback :state="validationImageUrl">
+                    lien ok
+                </b-form-valid-feedback>
+
+                <b-form-invalid-feedback :state="validationImageUrl">
+                    Le lien n'est pas conforme
+                </b-form-invalid-feedback>
+            </b-form-group>
+
+            <b-form-group class="form-group"
+                v-show="selected === 'upload'"
+                id="input-group-file"
+                label= "image à upload"
+                label-for="imageComm"
+                
+            >
+
+                <b-form-file 
+                    type="file" 
+                    placeholder= "placez votre image " 
+                    ref='file' 
+                    name="imageurl"
+                    v-model='imageComm'
+                    @change="handleFileUpload"
+                >
+                </b-form-file>
+                
+            </b-form-group>
 
             <b-button id="envoi-comm"  @click.prevent="postCommentaire({messageid, texte, imageComm })" value="validation" class="bg-light btn-light border-primary" > envoyer </b-button>
         </form>
@@ -27,11 +84,30 @@ export default {
     name: 'PostCommentaire',
     data(){
         return {
-            messageid: this.$route.params.id
+            messageid: this.$route.params.id,
+            selected: null,
+            texte: " ",
+            imageComm: " ",
+        
         }
     },
-    methods: {        
+
+    methods: { 
+        handleFileUpload(){
+            this.imageComm = this.$refs.file.$refs.input.files[0]
+        },   
         ...mapActions(['postCommentaire'])
+    },
+    computed:{
+        validationTexte(){
+            
+            return this.texte.length > 2
+        },
+        validationImageUrl(){
+            let regexUrl = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
+            return  regexUrl.test(this.imageComm)
+            
+        },
     }
 } 
 
@@ -44,9 +120,12 @@ export default {
     };
     
 }
+.form-group{
+    border: white 5px solid;
+    border-radius: 25px;
+};
 #envoi-comm{
     margin-top: 10px;
-//    border-color: #D1515A;
 
 }
     

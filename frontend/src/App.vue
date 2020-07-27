@@ -6,7 +6,7 @@
         <div class="test">
 
           <b-navbar-brand><router-link to="/">
-          <img src="../src/assets/icon.png" >
+          <img id="logo" src="../src/assets/icon.png" >
             Home  </router-link></b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -17,12 +17,10 @@
 
             <b-nav-item><router-link to="/moncompte">Mon compte</router-link></b-nav-item>
 
-            <!-- <b-nav-item><router-link :to="{ name: 'MessUser'}"> User </router-link></b-nav-item> -->
-
-            <!-- <router-link to="/moncompte" v-show="isAdmin ==0 " >Mon compte</router-link>
-            <router-link to="/compteadmin" v-show="isAdmin ==1 "> Admin </router-link> | -->
             <b-nav-item><router-link to="/connexion" @click.native="deconnection()">Se déconnecter </router-link></b-nav-item>
-            <p>{{ this.$store.state.user.photoProfil }}</p>
+            <div id="div-photo-profil">
+              <img :src="user.photoProfil" id="photo-profil">
+            </div>
         </b-collapse> 
       </div>
 
@@ -32,29 +30,29 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 export default {
 
   data(){
     return{
       UserId: localStorage.getItem('UserId'),
-   
-
     }
   },
-  created(){
-    console.log(this)
+  beforeMount(){
+    this.getOneCompte()
+  },
+  computed:{
+    ...mapState(['user'])
   },
   methods: {
+    ...mapActions (['getOneCompte']),
     deconnection(){
-      console.log('test')
       if(window.confirm('Voulez-vous vous déconnecter?')){
         localStorage.clear()
         location.reload()
       }
       else{
-        
-        this.$router.push('/Home')
-        
+        this.$router.push('/Home') 
       }
     }  
   }
@@ -84,20 +82,46 @@ body{
   padding: 30px;
   background-color: #ffd7d7;
   width: 100%;
-  justify-content: center;
+  
   
   #nav-flex{
     width: 100%;
-    // display:flex;
-    // justify-content: center;
+    justify-content: center;
+    align-items: baseline;
   }
   .navbar-brand{
     flex-basis: min-width;
   }
-  img{
+  #logo{
     width:40px;
     border: 3px solid #D1515A;
     border-radius: 25px;
+    
+  }
+  // #photo-profil{
+
+  //   width: auto;
+  //   max-width: 100px;
+  //   height: auto;
+  //   max-height: 100px;
+  // }
+
+  #div-photo-profil{
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    flex-shrink: 0;
+    user-select: none;
+    border-radius: 50%;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+  }
+  #photo-profil{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    text-align: center;
   }
   
   .test{
@@ -119,6 +143,7 @@ body{
   li{
     list-style: none;
   }
+  
 }
 @media (min-width: 576px){
   #nav-flex{

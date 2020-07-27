@@ -13,7 +13,7 @@ import Message from '../components/Message'
 export default {
 
 
-    name: 'Mur',
+    name: 'LeMessage',
     components: {
         Message
     },

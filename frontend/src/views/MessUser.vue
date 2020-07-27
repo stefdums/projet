@@ -7,7 +7,7 @@
             :hearder= '"message.User.nom" + "message.User.prenom"'
             :title="message.titreImage"
             :img-src="message.imageUrl"
-            img-alt="message.titreImage"
+            :img-alt="message.titreImage"
             img-top
             tag="article"          
             class="md-2 card"
@@ -18,7 +18,7 @@
                 <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>                        
             </b-cart-text>
 
-            <router-link :to="{name: 'Mur', params: { id: message.id }}" tag="button" class="btn border border-info">Afficher </router-link>
+            <router-link :to="{name: 'LeMessage', params: { id: message.id }}" tag="button" class="btn border border-info">Afficher </router-link>
                     
             
             <div>

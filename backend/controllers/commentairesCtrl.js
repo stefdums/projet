@@ -18,18 +18,34 @@ exports.createCommentaire = (req, res, next)=>{
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const UserId = decodedToken.UserId;
 
-    Commentaire.create({      // pour créer un commentaire
-        texte: cleanTexte,
-        imageComm: cleanImageComm, 
-        UserId: UserId,
-        MessageId: req.params.id
-    })
-    .then(()=> Message.increment( //pour incrementer nbCommentaires de 1
-         'nbCommentaires',
-        { where: { id: req.params.id }}
-    ))
-    .then(()=> res.status(201).json({ message: "commentaire posté" }))
-    .catch( error => res.status(400).json({ error }))
+    if(req.file != undefined){
+        Commentaire.create({      // pour créer un commentaire
+            texte: cleanTexte,
+            imageComm: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, 
+            UserId: UserId,
+            MessageId: req.params.id
+        })
+        .then(()=> Message.increment( //pour incrementer nbCommentaires de 1
+            'nbCommentaires',
+            { where: { id: req.params.id }}
+        ))
+        .then(()=> res.status(201).json({ message: "commentaire posté" }))
+        .catch( error => res.status(400).json({ error }))
+    }
+    else{
+        Commentaire.create({      // pour créer un commentaire
+            texte: cleanTexte,
+            imageComm: cleanImageComm, 
+            UserId: UserId,
+            MessageId: req.params.id
+        })
+        .then(()=> Message.increment( //pour incrementer nbCommentaires de 1
+            'nbCommentaires',
+            { where: { id: req.params.id }}
+        ))
+        .then(()=> res.status(201).json({ message: "commentaire posté" }))
+        .catch( error => res.status(400).json({ error }))
+    }
 }
 
 /**
@@ -44,6 +60,8 @@ exports.deleteCommentaire = (req, res, next) =>{
     const UserId = decodedToken.UserId;
     const isAdmin = decodedToken.isAdmin;
 
+    console.log()
+
     Commentaire.findOne({
         where: {
             id: req.params.id
@@ -55,12 +73,14 @@ exports.deleteCommentaire = (req, res, next) =>{
          */        
         if( Commentaire.UserId == UserId || isAdmin == 1){
 // verif si le commentaire contient une image:
-            if ( Commentaire.imageComm ){
+            if ( Commentaire.imageComm == undefined){
+                console.log('test1')
                 const filename = Commentaire.imageComm.split('/images/')[1];
                 fs.unlink(`images/${filename}`, ()=> {
                     Commentaire.destroy({
                         where: { id: req.params.id }
                     })
+                    .then(()=> console.log())
                     .then(()=> Message.decrement( //pour décrementer nbCommentaires de 1
                         'nbCommentaires',
                     { where: { id: req.params.id }}
@@ -69,13 +89,16 @@ exports.deleteCommentaire = (req, res, next) =>{
                     .catch(error => res.status(400).json({ error }))
                 })
             } else {
+                console.log(req.params.MessageId)
                 Commentaire.destroy({
                     where: { id: req.params.id }
                 })
-                .then(()=> Message.decrement( //pour décrementer nbCommentaires de 1
+                .then(()=> console.log('destroy ok'))
+                .then(() => Message.decrement( //pour décrementer nbCommentaires de 1
                     'nbCommentaires',
-                { where: { id: req.params.id }}
+                { where: { id: req.params.MessageId }}
                 ))
+        //        .then(()=> console.log(message.nbCommentaires))
                 .then(() => res.status(200).json({ message: "commentaire supprimé" }))
                 .catch(error => res.status(400).json({ error }))   
             }
@@ -84,7 +107,7 @@ exports.deleteCommentaire = (req, res, next) =>{
             throw "ACTION NON AUTORISEE"
         }
     })
-    .then(console.log('pascoucou'))
+    .then(console.log('pas de Commentaire'))
     .catch(error => res.status(400).json({ error }))      
 }
 
