@@ -6,6 +6,7 @@ const MIME_TYPES = {
     'image/png': 'png',
     'image/gif': 'gif',
     'image/webp': 'webp',
+
 }
 
 const storage = multer.diskStorage({
@@ -31,11 +32,11 @@ module.exports = multer({
   
         if( MIME_TYPES[file.mimetype] == undefined){
             console.log(file.mimetype)
-            return callback(null, false, new Error('I don\'t have a clue!'))
+            return callback(null, false, new Error("Le fichier n'a pas un bon format"))
         }else{
             callback(null, true)
         }
-     //   cb(new Error('I don\'t have a clue!'))
+  
     },
-    limits:{ fileSize : 1024*1024 }
+    limits:{ fileSize : 2000 * 2000 }
 }).single('image');

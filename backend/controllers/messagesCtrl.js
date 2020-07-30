@@ -24,7 +24,6 @@ exports.createMessage = (req, res, next)=>{
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
             UserId: UserId   
         })
-        .then(console.log('avec req.file'))
         .then(()=> res.status(201).json({ message: "message enregistré" }))
         .catch(error => res.status(400).json({ error }))
         
@@ -36,12 +35,11 @@ exports.createMessage = (req, res, next)=>{
             imageUrl: cleanImageUrl,
             UserId: UserId   
         })
-        .then(console.log(req.body))
         .then(()=> res.status(201).json({ message: "message enregistré" }))
         .catch(error => res.status(400).json({ error }))
     }
     else {
-        console.log('mauvais fichier')
+        console.log('mauvais format de fichier')
     }    
 }
 /**
@@ -67,7 +65,6 @@ exports.modifyMessage = (req, res, next)=>{
     })
     .then( Message => {
 
- //       if(req.file == undefined){
         /**
          * Si UserId du message est le même que celui du token
          */

@@ -11,8 +11,8 @@
         >
             
             <b-card-text class= "user">
-                <div id='div-photo-profil'>
-                    <img :src="message.User.photoProfil" id="photo-profil">
+                <div class='div-photo-profil'>
+                    <img :src="message.User.photoProfil" class="photo-profil">
                 </div>    
                 {{ message.User.nom }} {{ message.User.prenom }}                        
             </b-card-text>
@@ -40,21 +40,6 @@
 export default {
     name: 'Message',
     props: ["message"], 
-
-    // methods:{
-    //     dateFormat(){
-    //         let date = this.message.createdAt
-    //         let dateF = date.split('T')
-    //         console.log(dateF)
-    //         let jour = dataF[0];
-    //         console.log(jour)
-    //         let heureZ = dataF[1].split('.')
-    //         let heure = heureZ[0]
-    //         return date + heure
-    //     }
-    // },
-    
-
 }
 
 </script>
@@ -64,17 +49,19 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-        
+        align-items: center;       
     }
     article{
         border-radius: 40px;
         color: #091F43; 
         margin-bottom: 10px;
+        overflow: hidden;
        
     }
     .card-body{
         padding-bottom: 14px;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     };   
     .card-title{
 
@@ -92,7 +79,7 @@ export default {
         align-items: center;
             
     };
-    #div-photo-profil{
+    .div-photo-profil{
     display: flex;
     overflow: hidden;
     align-items: center;
@@ -103,7 +90,7 @@ export default {
     width: 70px;
     height: 70px;
     }
-    #photo-profil{
+    .photo-profil{
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -120,9 +107,11 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
         margin-top:10px;
+        
+
         p{
            margin-bottom: 0; 
         }

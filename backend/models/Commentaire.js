@@ -31,12 +31,10 @@ module.exports = (sequelize, DataTypes) => {
     Commentaire.belongsTo(models.Message, {
       as: 'message',
       foreignKey: 'MessageId',
-      //onDelete: 'CASCADE'
+
     }),
     Commentaire.belongsTo(models.User, {
-  //    as: 'user',
-  //    foreignKey: 'UserId',
-  //    onDelete: 'CASCADE'
+
       foreignKey: {
         allowNull: false
       }

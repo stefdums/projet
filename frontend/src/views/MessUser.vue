@@ -90,11 +90,12 @@ article{
     justify-content: center;
     border-radius: 40px;
     color: #091F43;
-        
+    overflow: hidden;   
 }
 .card-body{
     padding-bottom: 14px;
-    
+    padding-left: 0 !important;
+    padding-right: 0 !important;    
     .card-title{
 
         margin-bottom: 0px;
@@ -124,8 +125,8 @@ article{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
         margin-top:10px;
         p{
            margin-bottom: 0; 

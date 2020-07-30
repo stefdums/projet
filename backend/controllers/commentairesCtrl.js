@@ -10,7 +10,7 @@ const fs = require('fs')
  */
 exports.createCommentaire = (req, res, next)=>{
     const cleanTexte = clean(req.body.texte)
-    const cleanImageComm = clean(req.body.imageComm)
+    const cleanImageComm = clean(req.body.image)
     /***
      * recuperation de UserId et isAdmin
      */

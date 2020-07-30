@@ -21,9 +21,7 @@
                     <b-button @click.prevent="deleteCommentaire({commentaire, messageid})" class="border border-danger bg-white" v-if="isAdmin == 1 || userid == commentaire.UserId" name="bouton annuler"> &#10060; </b-button>
     
                 </b-card-footer>
-                <router-view class="ModifyComm" v-if="$router.currentRoute.params.commid == commentaire.id"/>     
-            <!-- <ModifyComm v-show="modify"/> -->
-            
+                <router-view class="ModifyComm" v-if="$router.currentRoute.params.commid == commentaire.id"/>                 
             </b-card>          
             
             
@@ -43,9 +41,7 @@ export default {
             messageid: this.$route.params.id,
             userid: localStorage.getItem('UserId'),
             isAdmin: localStorage.getItem('isAdmin'),
-            modify: false,
-  
- 
+            modify: false, 
         }
     },
     beforeMount() {
@@ -56,14 +52,10 @@ export default {
     },
     computed:{
         ...mapState(['commentaires', 'commentaire']),
-
     },
-    methods: {
-       
+    methods: {   
         ...mapActions(['getAllComms', 'deleteCommentaire', 'modifyComm', 'getCommById'])
-    },
-
-        
+    },       
 }
 </script>
 <style lang="scss" scoped>

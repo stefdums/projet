@@ -18,10 +18,11 @@
             <b-nav-item><router-link to="/moncompte">Mon compte</router-link></b-nav-item>
 
             <b-nav-item><router-link to="/connexion" @click.native="deconnection()">Se déconnecter </router-link></b-nav-item>
-            <div id="div-photo-profil">
-              <img :src="user.photoProfil" id="photo-profil">
-            </div>
+            
         </b-collapse> 
+        <div class="div-photo-profil-nav">
+          <img :src="user.photoProfil" class="photo-profil-nav">
+        </div>
       </div>
 
     </b-navbar>
@@ -52,7 +53,7 @@ export default {
         location.reload()
       }
       else{
-        this.$router.push('/Home') 
+        this.$router.push('/') 
       }
     }  
   }
@@ -87,26 +88,18 @@ body{
   #nav-flex{
     width: 100%;
     justify-content: center;
-    align-items: baseline;
+    align-items: center;
   }
   .navbar-brand{
     flex-basis: min-width;
   }
   #logo{
-    width:40px;
+    width:70px;
     border: 3px solid #D1515A;
-    border-radius: 25px;
+    border-radius: 50px;
     
   }
-  // #photo-profil{
-
-  //   width: auto;
-  //   max-width: 100px;
-  //   height: auto;
-  //   max-height: 100px;
-  // }
-
-  #div-photo-profil{
+  .div-photo-profil-nav{
     display: flex;
     overflow: hidden;
     align-items: center;
@@ -117,7 +110,7 @@ body{
     width: 70px;
     height: 70px;
   }
-  #photo-profil{
+  .photo-profil-nav{
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -150,9 +143,13 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: center;
+  };
+  .photo-profil-nav{
+    margin-left: auto;
+    margin-right: auto;
+
   }
 }
-
 </style>
 
 #D1515A rouge

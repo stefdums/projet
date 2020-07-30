@@ -6,12 +6,7 @@
             <label for="titre">Nouveau titre : </label>
             <b-form-input type="text" name="titre" id="titre" v-model="message.titreImage" >
             </b-form-input>
-            
-            <!-- <label for="imageurl"> Mettre le nouveau lien de l'image </label>
-            <b-form-input type="url" name="imageurl" id="imageurl" v-model='message.imageUrl' >
-            </b-form-input> -->
-                            
-            
+                   
         <b-card-footer id='modif'>
             <b-button id='btn-modif' class="border border-info bg-white" @click="modifyMessage({ message, messageid, UserId,  })">
                         Modifiez

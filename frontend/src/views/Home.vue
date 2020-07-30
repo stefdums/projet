@@ -21,11 +21,6 @@ export default {
     flex-direction: column;
     align-items: center;      
 }
-all-message {
-    width: 50% !important;
-    border: solid black 2px;
-}
-
 @media (max-width: 576px) {
     .home {
         width: 100%

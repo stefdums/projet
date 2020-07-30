@@ -46,6 +46,7 @@ export default {
     flex-direction: column;
 
 }
+ 
 #div-photo-profil{
 display: flex;
 overflow: hidden;
@@ -56,6 +57,8 @@ border-radius: 50%;
 justify-content: center;
 width: 70px;
 height: 70px;
+margin-left: auto;
+margin-right: auto;
 margin-bottom: 10px;
 }
 #photo-profil{

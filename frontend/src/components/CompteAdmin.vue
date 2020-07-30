@@ -5,8 +5,8 @@
             
             <h6 class="card-subtitle mb-2 text-muted" v-if="user.isAdmin == 1">est administrateur</h6>
             
-            <div id='div-photo-profil'>
-                <img :src="user.photoProfil" id="photo-profil">
+            <div class='div-photo-profil'>
+                <img :src="user.photoProfil" class="photo-profil">
             </div>
             <b-card-text id="email"> {{ user.email }}</b-card-text>
             <b-card-text id="date">date de création: {{ ((user.createdAt).split('T'))[0] }}</b-card-text>
@@ -51,9 +51,10 @@ export default {
 <style lang="scss" scoped>
 .card-boby{
     display: flex;
-    align-items: center; 
+    align-items: center;
+    
 }
-#div-photo-profil{
+.div-photo-profil{
     margin-bottom: 10px;
     display: flex;
     overflow: hidden;
@@ -64,8 +65,11 @@ export default {
     border-radius: 50%;
     width: 80px;
     height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    
 }
-#photo-profil{
+.photo-profil{
     width: 100%;
     height: 100%;
     object-fit: cover;

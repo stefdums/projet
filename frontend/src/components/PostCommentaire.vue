@@ -67,8 +67,16 @@
                     name="imageurl"
                     v-model='imageComm'
                     @change="handleFileUpload"
+                    :state="validationImage"
                 >
                 </b-form-file>
+                <b-form-valid-feedback :state="validationImage">
+                    image ok
+                </b-form-valid-feedback>
+
+                <b-form-invalid-feedback :state="validationImage">
+                    image non valide
+                </b-form-invalid-feedback>
                 
             </b-form-group>
 
@@ -105,8 +113,13 @@ export default {
         },
         validationImageUrl(){
             let regexUrl = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
+            console.log(this.imageComm)
             return  regexUrl.test(this.imageComm)
             
+        },
+        validationImage(){
+            let regexUpload = /\.(jpe?g|png|gif|webp)$/i
+            return regexUpload.test(this.imageComm.name) 
         },
     }
 } 

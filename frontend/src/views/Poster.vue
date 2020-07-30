@@ -9,11 +9,11 @@
             >    
                 <b-form-input type="text" v-model="titreImage" name="titre" id="titre" :state="validationTitre"></b-form-input>
 
-                <b-form-valid-feedback :state="validationTitre">
+                <b-form-valid-feedback class="input-info" :state="validationTitre">
                     titre ok
                 </b-form-valid-feedback>
 
-                <b-form-invalid-feedback :state="validationTitre">
+                <b-form-invalid-feedback class="input-info" :state="validationTitre">
                     titre obligatoire
                 </b-form-invalid-feedback>
                 
@@ -31,11 +31,11 @@
                 v-show="selected === 'url'"               
             >
                 <b-form-input type="url" v-model="imageUrl" name="imageurl" id="image" ></b-form-input>
-                <b-form-valid-feedback :state="validationImageUrl">
+                <b-form-valid-feedback class="input-info" :state="validationImageUrl">
                     lien ok
                 </b-form-valid-feedback>
 
-                <b-form-invalid-feedback :state="validationImageUrl">
+                <b-form-invalid-feedback class="input-info" :state="validationImageUrl">
                     Le lien n'est pas conforme
                 </b-form-invalid-feedback>
             </b-form-group>
@@ -57,19 +57,15 @@
                     :state="validationImage"
                 ></b-form-file>
 
-                <b-form-valid-feedback :state="validationImage">
+                <b-form-valid-feedback class="input-info" :state="validationImage">
                     image ok
                 </b-form-valid-feedback>
 
-                <b-form-invalid-feedback :state="validationImage">
-                    image obligatoire
+                <b-form-invalid-feedback class="input-info" :state="validationImage">
+                    image non valide
                 </b-form-invalid-feedback>
             
             </b-form-group>
-
-            
-
-           
 
             <b-button id="bouton-valid" @click.prevent="postMessage({ imageUrl, titreImage })" value ="validation" class="btn btn-light bg-light">
             Envoyer </b-button>
@@ -106,7 +102,8 @@ export default {
             
         },
         validationImage(){
-            return this.imageUrl != " "
+            let regexUpload = /\.(jpe?g|png|gif|webp)$/i
+            return regexUpload.test(this.imageUrl.name) 
         },
     }
 }
@@ -117,6 +114,13 @@ export default {
 };
 button{
   border-color: #D1515A
+}
+.input-info{
+
+    font-size: 1.25em;
+    background-size: auto ;
+    background-color: white;
+    border-radius: 25px;
 }
 
 </style>

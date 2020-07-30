@@ -6,7 +6,6 @@ require('dotenv').config();
 
 const messagesRoutes = require('./routes/messagesRoutes')
 const usersRoutes = require('./routes/usersRoutes')
-//const commentairesRoutes = require('./routes/commentairesRoutes')
 /**
  * DB connection
  */
@@ -15,7 +14,6 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(process.env.DATABASE, process.env.USER, process.env.PASS, {
   host: 'localhost',
   dialect: 'mysql',
-//  timezone: "+02:00",
 });
 
 module.exports = sequelize;
@@ -42,7 +40,7 @@ app.use('/images', express.static(path.join(__dirname,'images'))),
 
 app.use('/groupomania/messages', messagesRoutes)
 app.use('/groupomania/auth', usersRoutes)
-//app.use('/groupomania/messages/:MessageId/comm', commentairesRoutes)
+
 
 
 module.exports = app;

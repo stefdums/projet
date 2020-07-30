@@ -31,6 +31,7 @@ export default {
 form {
   margin-bottom: 40px;
 }
+
    
 @media (max-width: 576px) { 
   .connexion{

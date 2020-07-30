@@ -16,9 +16,9 @@
                         <img :src="message.User.photoProfil" :alt="message.User.nom" id="photo-profil">
                     </div>
                 </div> 
-                <router-link :to="{name:'ModifyMessage'}" v-if="userid == message.UserId" ><b-button  class="border border-info bg-white">&#9998;</b-button></router-link>
+                <router-link :to="{name:'ModifyMessage'}" v-show="userid == message.UserId" ><b-button  class="border border-info bg-white">&#9998;</b-button></router-link>
                 
-                <b-button  @click.prevent="deleteMessage(message)" v-if="userid == message.UserId  || isAdmin == 1" class="border border-danger bg-white"> &#10060; </b-button> 
+                <b-button  @click.prevent="deleteMessage(message)" v-show="userid == message.UserId  || isAdmin == 1" class="border border-danger bg-white"> &#10060; </b-button> 
                 
             </b-card-text>
             <b-card-footer>
@@ -35,7 +35,7 @@
      <!-- lien pour modifier le message -->       
         <router-view v-if="this.$route.params.commid == null"></router-view>
         <PostCommentaire/>    
-        <!-- <all-commentaires class="all-commentaires"/> -->
+
         <GetCommentaires/>
     </div>
 </template>
@@ -57,6 +57,7 @@ export default {
     props: ["id"],
     mounted (){
         this.$store.dispatch('getMessage', this.id)
+    
 
     },
     components: {
@@ -96,11 +97,13 @@ article{
     justify-content: center;
     border-radius: 40px;
     color: #091F43;
+    overflow: hidden;
         
 }
 .card-body{
     padding-bottom: 14px;
-    
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     .card-title{
 
         margin-bottom: 0px;
@@ -147,8 +150,8 @@ article{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
         margin-top:10px;
         p{
            margin-bottom: 0; 

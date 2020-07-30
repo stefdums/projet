@@ -17,11 +17,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
 
-
-      // as: 'user',
-      // foreignKey: 'UserId',
-      // allowNull: false,
-      //onDelete: 'CASCADE'
     }),
     models.Message.hasMany(models.Commentaire, {
       as: 'commentaires',

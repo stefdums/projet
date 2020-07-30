@@ -10,11 +10,11 @@
 
             <b-form-input type="text" name="nom" id="nom" v-model="nom"  :state="validationNom"></b-form-input>
 
-            <b-form-invalid-feedback :state="validationNom">
+            <b-form-invalid-feedback class="input-info" :state="validationNom">
                 Nom non conforme
             </b-form-invalid-feedback>
 
-            <b-form-valid-feedback :state="validationNom">
+            <b-form-valid-feedback class="input-info" :state="validationNom">
                 Nom valide
             </b-form-valid-feedback>
 
@@ -27,11 +27,11 @@
 
             <b-form-input type="text" name="prenom" id="prenom" v-model="prenom" fromcontrolname="prenom" :state="validationPrenom"></b-form-input>
 
-            <b-form-invalid-feedback :state="validationPrenom">
+            <b-form-invalid-feedback class="input-info" :state="validationPrenom">
                     Prenom non conforme
             </b-form-invalid-feedback>
 
-            <b-form-valid-feedback :state="validationPrenom">
+            <b-form-valid-feedback class="input-info" :state="validationPrenom">
                     Prenom valide
             </b-form-valid-feedback>
         </b-form-group>
@@ -69,12 +69,12 @@
             label-for="password">
 
             <b-form-input type="password" name="password" id="password" v-model="password" :state="validationPassword"></b-form-input>
-            <b-form-invalid-feedback 
+            <b-form-invalid-feedback class="input-info"
             >
                 Mot de passe valide non conforme
             </b-form-invalid-feedback>
 
-            <b-form-valid-feedback           
+            <b-form-valid-feedback class="input-info"          
             >
                 Mot de passe valide
             </b-form-valid-feedback>
@@ -150,18 +150,11 @@ export default {
                         }
                     }                
                 )
-                .then((response)=> {  
-                    console.log(response)
-                    this.postConnexion()
-                    
+                .then(()=> {  
+                    this.postConnexion()    
                 })
                 .catch( error => { error })       
         },
-        
-
-        
-        
-
     },
     computed:{
         validationNom(){
@@ -172,17 +165,24 @@ export default {
             let regexText = /^[a-zA-Zéèçîï][a-zA-Zéèêçîï]+([a-zA-Zéèêçîï\-'\s]+)$/; 
             return regexText.test(this.prenom)
         },
-        // validationPassword(){
-        //     let regexPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{10,})/;
-        //     return regexPwd.test(this.password)
-        // },
+        validationPassword(){
+            
+            let regexPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{10,})/; 
+            return regexPwd.test(this.password)
+        },
     }
-
 } 
 </script>
 <style lang="scss" scoped>
 button{
    border-color: #D1515A;   
+}
+.input-info{
+
+    font-size: 1.25em;
+    background-size: auto ;
+    background-color: white;
+    border-radius: 25px;
 }
   
 </style>

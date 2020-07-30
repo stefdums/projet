@@ -5,12 +5,15 @@
                 <h4>Modifiez votre commentaire</h4>
 
                 <label for="texte">Nouveau commentaire : </label>
-                <b-form-input type="text" name="texte" id="texte" v-model="commentaire.texte" :placeholder="commentaire.texte"></b-form-input>
+                <b-form-input 
+                    type="text" 
+                    name="texte" 
+                    id="texte" 
+                    v-model="commentaire.texte" 
+                    :placeholder="commentaire.texte"
+                    >
+                </b-form-input>
                 
-                <!-- <label for="imagecomm"> Mettre le nouveau lien de l'image </label>
-                <b-form-input type="url" name="imagecomm" id="imagecomm" v-model="commentaire.imageComm" ></b-form-input>
-                     -->
-
                 <b-card-footer>
                     <b-button variant="success" @click="modifyComm(commentaire)">
                                 Modifiez
@@ -29,7 +32,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-//import axios from 'axios'
+
 export default {
 
     beforeMount(){
@@ -44,42 +47,16 @@ export default {
     },
     data(){
         return {
-           messageId: this.$route.params.id,
-           commId: this.$route.params.commid,
-        //    message_id: this.commentaire.MessageId,
-        //    comm_id: this.commentaire.id,  
-        //    message_id: this.$store.state.commentaire.MessageId,
+            messageId: this.$route.params.id,
+            commId: this.$route.params.commid,
             commentaire: this.commentaire,
             commentaireTexte: this.commentaire.texte   
-                
-            //     texte: this.$store.state.commentaire.texte,
-            //     imageComm: this.$store.state.commentaire.imageComm,
-            // }
+
         }
     },
     methods: {
         
         ...mapActions(['modifyComm', 'getCommById']),
-        // getCommById(){
-        //     console.log('tete')
-        //     axios
-        //         .get(`http://localhost:3000/groupomania/messages/${this.$route.params.id}/comm/${this.$route.params.commid}` , {
-        //         headers: {
-        //             Authorization: `Bearer ${localStorage.getItem('token')}`
-        //         }
-        //         })
-        //         .then( response => { 
-        //         console.log(response.data)
-        //         let commentaire = response.data 
-        //         let commentaireTexte = commentaire.texte
-                       
-        //       //  commit('GET_COMM_ID', commentaire)
-        //         console.log(commentaire.texte)
-        //         console.log(commentaireTexte)
-        //         })
-        //         .catch( error => { error })
-            
-        // },
         annuler(){
             
             location.reload()

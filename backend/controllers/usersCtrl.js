@@ -15,17 +15,17 @@ const clean = require('xss-clean/lib/xss').clean
  */
 exports.inscription = (req, res, next)=>{
     
-
-    if (regexMail.test(req.body.email)){
+    if (!regexMail.test(req.body.email)){
         return res.status(400).json({ error: 'email non conforme' })
     } 
-    if (regexPwd.test(req.body.password)){
+    if (!regexPwd.test(req.body.password)){
         return res.status(400).json({ error: ' Mot de passe nom conforme ' })
     } 
+    console.log('test')
     bcrypt.hash(req.body.password, 10)
 
     .then(hash => {
-    //    const userObject = JSON.parse(req.body)
+
         const cleanNom = clean((req.body.nom).toUpperCase())
         const cleanPrenom = clean((req.body.prenom).toLowerCase())
         if(req.file){
@@ -143,21 +143,8 @@ exports.deleteInscription = (req, res, next)=>{
         if ( User.id == UserId || isAdmin === 1 ){
             const filename = User.photoProfil.split('/images/')[1];
             console.log(filename);
+            if(filename != "user_profil_default.png"){
             fs.unlink(`images/${filename}`, ()=> {
-    /***
-     * A VOIR AVEC LE CLIENT: Lorsque qu'un utilisateur est supprimé, on supprime TOUS ses messages? 
-     */
-    // User.update({
-    //     nom: 'compte supprimé',
-    //     prenom: 'compte supprimé',
-    //     email: 'compte supprimé'
-    // },{
-    //     where: {
-    //         id: req.params.id
-    //     }
-    // })
-    // .then(()=> res.status(200).json({ message: 'informations supprimées' }))
-    // .catch( error => res.status(400).json({ error })) //syntaxe invalide   
 
                 User.destroy({
                     where: {
@@ -167,6 +154,16 @@ exports.deleteInscription = (req, res, next)=>{
                 .then(() => res.status(200).json({ message: "compte supprimé" }))
                 .catch( error => res.status(400).json({ error }))
             })
+            }else {
+                User.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                .then(() => res.status(200).json({ message: "compte supprimé" }))
+                .catch( error => res.status(400).json({ error }))
+            }
+            
         }
         else {
             throw "ACTION NON AUTORISEE" 

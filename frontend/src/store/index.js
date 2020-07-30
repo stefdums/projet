@@ -283,9 +283,11 @@ export default new Vuex.Store({
               }  
             )
             .then(()=> { 
-              commit('POST_COMM') 
-              router.push({ name: 'LeMessage'});
-              location.reload(true);
+              commit('POST_COMM')
+              console.log(form.imageComm) 
+ 
+             router.push({ name: 'LeMessage'});
+             location.reload(true);
 
             })
             .catch( error => {  error})
