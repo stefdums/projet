@@ -72,7 +72,7 @@ exports.deleteCommentaire = (req, res, next) =>{
          */        
         if( Commentaire.UserId == UserId || isAdmin == 1){
 // verif si le commentaire contient une image:
-            if ( Commentaire.imageComm == undefined){
+            if ( Commentaire.imageComm != undefined){
 
                 const filename = Commentaire.imageComm.split('/images/')[1];
                 fs.unlink(`images/${filename}`, ()=> {
@@ -81,7 +81,7 @@ exports.deleteCommentaire = (req, res, next) =>{
                     })
                     .then(()=> Message.decrement( //pour décrementer nbCommentaires de 1
                         'nbCommentaires',
-                    { where: { id: req.params.id }}
+                    { where: { id: req.params.MessageId }}
                     ))
                     .then(() => res.status(200).json({ message: "commentaire supprimé" }))
                     .catch(error => res.status(404).json({ error }))
