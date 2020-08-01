@@ -6,7 +6,7 @@
 
             <div id='div-photo-profil'>
 
-                <b-card-img :src="user.photoProfil" id="photo-profil"/>
+                <img :src="user.photoProfil" id="photo-profil"/>
             </div>    
             <b-card-text id="email"> {{ user.email }}</b-card-text>
             <b-card-text id="date">date de création: {{ ((user.createdAt).split('T'))[0] }}</b-card-text>

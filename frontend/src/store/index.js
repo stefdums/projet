@@ -184,7 +184,7 @@ export default new Vuex.Store({
       })
       .catch ( error => { 
           error;
-          this.$router.push({name: 'Connexion'}) })  
+          router.push({name: 'Connexion'}) })  
     },
      /***
      * GET All Commentaires
