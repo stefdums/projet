@@ -39,8 +39,7 @@
         <b-form-group class="form-group"
             id="input-group-file"
             label="photo de profil"
-            label-for="photoProfil"
-            
+            label-for="photoProfil"           
             >
 
             <b-form-file 
@@ -80,7 +79,7 @@
             </b-form-valid-feedback>
 
             <b-form-text id="password-help-block">
-                Votre mot de passe doit contenir: 1 minuscule, 1 majuscule, 1 caractere numeric, 1 caractere spécial et contenir au minimum 10 caracteres 
+                Votre mot de passe doit contenir: 1 minuscule, 1 majuscule, 1 caractere numerique, et contenir au minimum 10 caracteres 
             </b-form-text>
         </b-form-group>
 
@@ -146,7 +145,6 @@ export default {
                      {
                          headers: {'Content-Type': 
                          'multipart/form-data',
-
                         }
                     }                
                 )
@@ -167,7 +165,7 @@ export default {
         },
         validationPassword(){
             
-            let regexPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{10,})/; 
+            let regexPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{10,})/; 
             return regexPwd.test(this.password)
         },
     }

@@ -8,8 +8,6 @@
 import Compte from '../components/Compte.vue'
 import CompteAdmin from '../components/CompteAdmin.vue'
 
-//import axios from 'axios'
-
 export default {
     name: 'MonCompte',
     data(){

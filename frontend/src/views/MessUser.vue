@@ -13,7 +13,6 @@
             class="md-2 card"
           
         >
-            
             <b-cart-text>
                 <p class= "user"> {{ message.User.nom }} {{ message.User.prenom }}</p>                        
             </b-cart-text>
@@ -21,9 +20,7 @@
             <router-link :to="{name: 'LeMessage', params: { id: message.id }}" tag="button" class="btn border border-info">Afficher </router-link>
                     
             
-            <div>
-                <!-- <router-link :to="{name:'ModifyMessage'}" v-if="userid == message.UserId"><b-button  class="border border-info bg-white">&#9998; </b-button></router-link> -->
-                    
+            <div>                    
                 <b-button  @click.prevent="deleteMessage(message)" v-if="userid == message.UserId  || isAdmin === 1" class="border border-danger bg-white"> &#10060; </b-button> 
             </div>
 
@@ -43,12 +40,9 @@
 </template>
 
 <script>
-//import Message from "../components/Message.vue"
 import { mapActions, mapState } from 'vuex'
 export default {
-  //  props:["userid"],
     mounted(){
-        console.log('test')
         this.getMessageByUser(this.$route.params.userid) 
     },
     data(){
@@ -58,7 +52,7 @@ export default {
         }
     },
     components: {
-     //   Message,
+
     },
     computed:{
         ...mapState(['messages'])

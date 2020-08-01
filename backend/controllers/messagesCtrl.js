@@ -17,7 +17,7 @@ exports.createMessage = (req, res, next)=>{
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const UserId = decodedToken.UserId;
-    console.log(req.file)
+
     if(req.file != undefined && req.file.filename != ""){
         Message.create({
             titreImage: cleanTitreImage,
@@ -65,44 +65,27 @@ exports.modifyMessage = (req, res, next)=>{
     })
     .then( Message => {
 
-        /**
-         * Si UserId du message est le même que celui du token
-         */
-            if( Message.UserId == UserId ){ // || isAdmin == 1){    ----> Si l'entreprise souhaite modifier les messages
-                Message.update({ 
-                    titreImage: cleanTitreImage,
-                    imageUrl: req.body.imageUrl,
-                    },{ 
-                        where: {
-                        id: req.params.id 
-                    }
-                })
-                .then(()=> res.status(200).json({ message: 'message modifié' }))
-                .catch( error => res.status(400).json({ error })) //syntaxe invalide throw 'Pas acces'
-            }
-            else {
-                throw "ACTION NON AUTORISEE" 
-            }  
-        //} 
-        // else{
-        //     if( Message.UserId == UserId ){ // || isAdmin == 1){    ----> Si l'entreprise souhaite modifier les messages
-        //     Message.update({ 
-        //         titreImage: cleanTitreImage,
-        //         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`    
-        //         },{ 
-        //             where: {
-        //             id: req.params.id 
-        //         }
-        //     })
-        //     .then(()=> res.status(200).json({ message: 'message modifié' }))
-        //     .catch( error => res.status(400).json({ error })) //syntaxe invalide throw 'Pas acces'
-        //     }
-        //     else {
-        //         throw "ACTION NON AUTORISEE" 
-        //     }  
-        // }                     
+    /**
+    * Si UserId du message est le même que celui du token
+    */
+        if( Message.UserId == UserId ){
+            Message.update({ 
+                titreImage: cleanTitreImage,
+                imageUrl: req.body.imageUrl,
+                },{ 
+                    where: {
+                    id: req.params.id 
+                }
+            })
+            .then(()=> res.status(200).json({ message: 'message modifié' }))
+            .catch( error => res.status(400).json({ error })) 
+        }
+        else {
+            throw "ACTION NON AUTORISEE" 
+        }  
+                   
     })
-    .catch( error => res.status(500).json({ error })) //syntaxe invalide                
+    .catch( error => res.status(500).json({ error }))           
 },
 /**
  * GET tout les messages
@@ -120,7 +103,7 @@ exports.getMessages = (req, res, next)=>{
         
     })
     .then(messages => res.status(200).json(messages))
-    .catch(error => res.status(400).json({ error })); //syntaxe invalide
+    .catch(error => res.status(400).json({ error })); 
 }
 /**
  * GET un message
@@ -175,6 +158,6 @@ exports.deleteMessage = (req, res, next)=>{
             throw "ACTION NON AUTORISEE"
         }
     })
-    .catch( error => res.status(500).json({ error })) //syntaxe invalide 
+    .catch( error => res.status(500).json({ error })) 
     
 }

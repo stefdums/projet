@@ -31,12 +31,11 @@ module.exports = multer({
     fileFilter: ( req, file, callback) =>{
   
         if( MIME_TYPES[file.mimetype] == undefined){
-            console.log(file.mimetype)
+
             return callback(null, false, new Error("Le fichier n'a pas un bon format"))
         }else{
             callback(null, true)
-        }
-  
+        }  
     },
     limits:{ fileSize : 2000 * 2000 }
 }).single('image');

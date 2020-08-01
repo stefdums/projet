@@ -60,8 +60,7 @@ exports.deleteCommentaire = (req, res, next) =>{
     const UserId = decodedToken.UserId;
     const isAdmin = decodedToken.isAdmin;
 
-    console.log()
-
+ 
     Commentaire.findOne({
         where: {
             id: req.params.id
@@ -74,40 +73,34 @@ exports.deleteCommentaire = (req, res, next) =>{
         if( Commentaire.UserId == UserId || isAdmin == 1){
 // verif si le commentaire contient une image:
             if ( Commentaire.imageComm == undefined){
-                console.log('test1')
+
                 const filename = Commentaire.imageComm.split('/images/')[1];
                 fs.unlink(`images/${filename}`, ()=> {
                     Commentaire.destroy({
                         where: { id: req.params.id }
                     })
-                    .then(()=> console.log())
                     .then(()=> Message.decrement( //pour décrementer nbCommentaires de 1
                         'nbCommentaires',
                     { where: { id: req.params.id }}
                     ))
                     .then(() => res.status(200).json({ message: "commentaire supprimé" }))
-                    .catch(error => res.status(400).json({ error }))
+                    .catch(error => res.status(404).json({ error }))
                 })
             } else {
-                console.log(req.params.MessageId)
                 Commentaire.destroy({
                     where: { id: req.params.id }
                 })
-                .then(()=> console.log('destroy ok'))
                 .then(() => Message.decrement( //pour décrementer nbCommentaires de 1
                     'nbCommentaires',
                 { where: { id: req.params.MessageId }}
                 ))
-        //        .then(()=> console.log(message.nbCommentaires))
                 .then(() => res.status(200).json({ message: "commentaire supprimé" }))
-                .catch(error => res.status(400).json({ error }))   
+                .catch(error => res.status(404).json({ error }))   
             }
         } else {
-            console.log('test')
             throw "ACTION NON AUTORISEE"
         }
     })
-    .then(console.log('pas de Commentaire'))
     .catch(error => res.status(400).json({ error }))      
 }
 
@@ -127,9 +120,8 @@ exports.getCommentaires = (req, res, next)=>{
         }]
 
     })
-    .then(console.log(User.nom))
     .then(messages => res.status(200).json(messages))
-    .catch(error => res.status(400).json({ error })); //syntaxe invalide
+    .catch(error => res.status(404).json({ error }));
 }
 /**
  * GET un commentaire
@@ -146,9 +138,8 @@ exports.getCommentaireById = (req, res, next)=>{
         }]
 
     })
-    .then(console.log(User.nom))
     .then(commentaire => res.status(200).json(commentaire))
-    .catch(error => res.status(404).json({ error })); //syntaxe invalide
+    .catch(error => res.status(404).json({ error })); 
 }
 
 /**
@@ -173,7 +164,6 @@ exports.modifyCommentaire = (req, res, next)=>{
     })
     .then( Commentaire => {
         if ( Commentaire.UserId == UserId){
-            console.log(cleanTexte)
             Commentaire.update({
                 texte: cleanTexte,
                 imageComm: cleanImageComm
@@ -183,13 +173,13 @@ exports.modifyCommentaire = (req, res, next)=>{
                 }
             })
             .then(()=> res.status(200).json({ message: 'commentaire modifié' }))
-            .catch( error => res.status(400).json({ error })) //syntaxe invalide 
+            .catch( error => res.status(400).json({ error })) 
         }
         else {
             throw 'ACTION NON AUTORISEE'
         }
     })
-    .catch( error => res.status(500).json({ error })) //syntaxe invalide            
+    .catch( error => res.status(500).json({ error }))           
 
             
 

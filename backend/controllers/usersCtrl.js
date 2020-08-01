@@ -5,7 +5,7 @@ const Message = require('../models').Message
 require('dotenv').config();
 const fs = require('fs')
 
-let regexPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{10,})/;
+let regexPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{10,})/;
 let regexMail = /.+@.+\..+/;
 
 const clean = require('xss-clean/lib/xss').clean
@@ -21,7 +21,6 @@ exports.inscription = (req, res, next)=>{
     if (!regexPwd.test(req.body.password)){
         return res.status(400).json({ error: ' Mot de passe nom conforme ' })
     } 
-    console.log('test')
     bcrypt.hash(req.body.password, 10)
 
     .then(hash => {
@@ -38,7 +37,7 @@ exports.inscription = (req, res, next)=>{
                     
             })
             .then(()=> res.status(201).json({ message: 'utilisateur créée'}))
-            .catch(error => res.status(400).json({error})) //syntaxe invalide
+            .catch(error => res.status(400).json({error})) 
         }
         else{
             User.create({
@@ -49,10 +48,10 @@ exports.inscription = (req, res, next)=>{
                 photoProfil: `${req.protocol}://${req.get('host')}/images/user_profil_default.png`,  
             })
             .then(()=> res.status(201).json({ message: 'utilisateur créée'}))
-            .catch(error => res.status(400).json({error})) //syntaxe invalide
+            .catch(error => res.status(400).json({error}))
         }    
     })
-    .catch(error =>{ console.log(error);res.status(500).json({error})}) //Le serveur a rencontré une situation qu'il ne sait pas traiter.
+    .catch(error =>{ res.status(500).json({error})}) 
 }
 
 /***
@@ -87,9 +86,9 @@ exports.connexion = (req, res, next) =>{
                 )
             })
         })
-        .catch(error => res.status(500).json({ error: 'pb de jwt' })) //Le serveur a rencontré une situation qu'il ne sait pas traiter.
+        .catch(error => res.status(500).json({ error: 'pb de jwt' })) 
     })
-    .catch(error => res.status(500).json({ error })) //Le serveur a rencontré une situation qu'il ne sait pas traiter.
+    .catch(error => res.status(500).json({ error })) 
 
 }
 
@@ -105,7 +104,7 @@ exports.getInscriptions = (req, res, next)=>{
         
     })
     .then(messages => res.status(200).json(messages))
-    .catch(error => res.status(400).json({ error })); //syntaxe invalide
+    .catch(error => res.status(400).json({ error })); 
 }
 /***
  * GET One inscription
@@ -118,7 +117,7 @@ exports.getOneInscription = (req, res, next)=>{
         
     })
     .then(messages => res.status(200).json(messages))
-    .catch(error => res.status(400).json({ error })); //syntaxe invalide
+    .catch(error => res.status(404).json({ error })); 
 }
 /**
  * DELETE inscription
@@ -142,18 +141,18 @@ exports.deleteInscription = (req, res, next)=>{
     .then ( User => {
         if ( User.id == UserId || isAdmin === 1 ){
             const filename = User.photoProfil.split('/images/')[1];
-            console.log(filename);
-            if(filename != "user_profil_default.png"){
-            fs.unlink(`images/${filename}`, ()=> {
 
-                User.destroy({
-                    where: {
-                        id: req.params.id
-                    }
+            if(filename != "user_profil_default.png"){
+                fs.unlink(`images/${filename}`, ()=> {
+
+                    User.destroy({
+                        where: {
+                            id: req.params.id
+                        }
+                    })
+                    .then(() => res.status(200).json({ message: "compte supprimé" }))
+                    .catch( error => res.status(400).json({ error }))
                 })
-                .then(() => res.status(200).json({ message: "compte supprimé" }))
-                .catch( error => res.status(400).json({ error }))
-            })
             }else {
                 User.destroy({
                     where: {
@@ -187,7 +186,7 @@ exports.modifyUser = (req, res, next)=>{
     const UserId = decodedToken.UserId;
     const isAdmin = decodedToken.isAdmin;
     /**
-     * recuperation User à supprimer
+     * recuperation User à modifier
      */
     User.findOne({
         where: {
@@ -200,14 +199,14 @@ exports.modifyUser = (req, res, next)=>{
                 nom: cleanNom,
                 prenom: cleanPrenom,
                 email: req.body.email,
-                photoProfil: `${req.protocol}://${req.get('host')}/images/${req.body.filename}` //req.file.filname a la place de body    
+                photoProfil: `${req.protocol}://${req.get('host')}/images/${req.body.filename}`     
             },{
                 where: {
                     id: req.params.id
                 }
             })
             .then(()=> res.status(200).json({ message: 'compte modifié' }))
-            .catch( error => res.status(400).json({ error })) //syntaxe invalide  
+            .catch( error => res.status(404).json({ error }))  
         }
         else {
             throw "ACTION NON AUTORISEE" 
@@ -232,5 +231,5 @@ exports.getMessagesByUserId = (req, res, next)=>{
         
     })
     .then(messages => res.status(200).json(messages))
-    .catch(error => res.status(400).json({ error })); //syntaxe invalide
+    .catch(error => res.status(404).json({ error })); 
 }

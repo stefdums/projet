@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import Home from "../views/Home.vue"
 import Connexion from '../views/Connexion.vue'
 import LeMessage from '../views/LeMessage.vue'
-//import GetCommentaires from '../components/GetCommentaires.vue'
 import Poster from '../views/Poster.vue'
 import MonCompte from '../views/MonCompte.vue'
 import CompteAdmin from '../components/CompteAdmin.vue'
@@ -51,11 +50,6 @@ Vue.use(VueRouter)
 
     ], 
   },
-  // {
-  //   path: "modifcomm",
-  //   component: ModifyComm,
-  //   name: "ModifyComm"
-  // },
   {
     path: '/poster',
     name: 'poster',

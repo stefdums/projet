@@ -1,9 +1,6 @@
 <template>
     <div>
         <get-commentaires/>
-        <!-- <router-link :to="{name: 'ModifyComm'}" v-if="userid == commentaire.UserId">
-        </router-link>-->
-           
     </div>
 </template>
 <script>

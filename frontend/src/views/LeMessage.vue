@@ -40,7 +40,7 @@
     </div>
 </template>
 <script>
-//import AllCommentaires from "../components/AllCommentaires.vue"
+
 import PostCommentaire from "../components/PostCommentaire.vue"
 import GetCommentaires from "../components/GetCommentaires.vue"
 import { mapActions } from "vuex"
@@ -61,7 +61,7 @@ export default {
 
     },
     components: {
-    //    AllCommentaires,
+
         PostCommentaire,
         GetCommentaires,
 

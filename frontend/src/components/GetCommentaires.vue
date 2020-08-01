@@ -47,9 +47,6 @@ export default {
     beforeMount() {
         this.getAllComms(this.$route.params.id)
     },
-    created(){
-        console.log()
-    },
     computed:{
         ...mapState(['commentaires', 'commentaire']),
     },

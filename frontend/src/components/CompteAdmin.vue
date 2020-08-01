@@ -12,22 +12,19 @@
             <b-card-text id="date">date de création: {{ ((user.createdAt).split('T'))[0] }}</b-card-text>
             <b-card-text id="id">id:  {{ user.id }}</b-card-text>     
                
-                
-                
+               
             <b-button @click.prevent="deleteCompteAdmin(user)" class="btn border-danger bg-white"> &#10060; </b-button>
         </b-card>
     </div>
 </template>
 <script>
-//import axios from 'axios'
 import { mapState ,mapActions } from 'vuex'
 export default {
-
 
     props: ["user.id"],
     data(){
         return {
-      //      isAdmin: user.isAdmin
+
         }
     },
     beforeMount(){

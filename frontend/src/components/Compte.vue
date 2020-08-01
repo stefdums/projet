@@ -48,18 +48,18 @@ export default {
 }
  
 #div-photo-profil{
-display: flex;
-overflow: hidden;
-align-items: center;
-flex-shrink: 0;
-user-select: none;
-border-radius: 50%;
-justify-content: center;
-width: 70px;
-height: 70px;
-margin-left: auto;
-margin-right: auto;
-margin-bottom: 10px;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    flex-shrink: 0;
+    user-select: none;
+    border-radius: 50%;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
 }
 #photo-profil{
     width: 100%;

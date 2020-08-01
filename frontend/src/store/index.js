@@ -220,7 +220,6 @@ export default new Vuex.Store({
         .then( response => { 
           let commentaire = response.data         
           commit('GET_COMM_ID', commentaire)
-          console.log(response)
         })
         .catch( error => { error })
       
@@ -271,10 +270,7 @@ export default new Vuex.Store({
 
         axios
             .post(`http://localhost:3000/groupomania/messages/${form.messageid}/comm`, 
-              // {
-              //   texte: form.texte,
-              //   imageComm: form.imageComm
-              // },
+
               formData,
               {
                   headers:{
@@ -283,11 +279,9 @@ export default new Vuex.Store({
               }  
             )
             .then(()=> { 
-              commit('POST_COMM')
-              console.log(form.imageComm) 
- 
-             router.push({ name: 'LeMessage'});
-             location.reload(true);
+              commit('POST_COMM') 
+              router.push({ name: 'LeMessage'});
+              location.reload(true);
 
             })
             .catch( error => {  error})
@@ -297,7 +291,7 @@ export default new Vuex.Store({
 
     /**
      * 
-     * @param {*} param0 
+     * @param {*} commit 
      * @param {*} data 
      * PUT son message
      */
@@ -374,7 +368,6 @@ export default new Vuex.Store({
     * DELETE pour supprimer UN compte par un Admin
     */
     deleteCompteAdmin ({ commit }, user){
-      console.log(user)      
       if( localStorage.getItem('isAdmin') != 1 ){
           alert("vous ne pouvez pas faire ça")
         }
@@ -389,15 +382,13 @@ export default new Vuex.Store({
                 .then(() => { commit('DEL_US')})
                 .then(()=> {
                   if(localStorage.getItem('isAdmin') != 1){
-                  {localStorage.clear()}
-                  }
+                    {localStorage.clear()}
+                    }
                   else{
-                   location.reload()
+                    location.reload()
                   }
                 })
-                .then(()=>{ window.alert('compte supprimé')})
-                .then(()=> { this.router.push('/Connexion') })
-               
+                .then(()=>{ window.alert('compte supprimé')})               
                 .catch(( error )=> { error })
             }      
         } 
@@ -413,7 +404,7 @@ export default new Vuex.Store({
           alert("vous ne pouvez pas faire ça")
         }
         else {
-            if(window.confirm('Voulez-vous supprimer le compte')){
+            if(window.confirm('Voulez-vous supprimer votre compte?')){
             axios
                 .delete(`http://localhost:3000/groupomania/auth/inscription/${user.id}`, {
                     headers: {
@@ -423,14 +414,14 @@ export default new Vuex.Store({
                 .then(() => { commit('DEL_US')})
                 .then(()=> {
                   if(localStorage.getItem('isAdmin') != 1){
-                  {localStorage.clear()}
+                    localStorage.clear()
                   }
                   else{
                    location.reload()
                   }
                 })
                 .then(()=>{ window.alert('compte supprimé')})
-                .then(()=> { this.$router.push('/Connexion') })
+                .then(()=> { router.push('/Connexion') })
                
                 .catch(( error )=> { error })
             }      
@@ -440,7 +431,6 @@ export default new Vuex.Store({
     * DELETE un Message
     */
     deleteMessage( { commit }, message){
-      console.log(message)
           
           if( localStorage.getItem('UserId') != message.UserId && localStorage.getItem('isAdmin') != 1){
               alert("vous ne pouvez pas faire ça")
@@ -465,7 +455,7 @@ export default new Vuex.Store({
       } ,   
     /**
      * 
-     * @param {*} param0 
+     * @param {*} commit 
      * @param {*} data 
      * DELETE son commentaire 
      */
@@ -485,7 +475,6 @@ export default new Vuex.Store({
                   })
                   .then(()=>{ window.alert('commentaire supprimé')})
                   .then(()=> { 
-                    console.log('pb avec DEL_COMM')
                     commit ('DEL_COMM');
                     router.push({ name: 'LeMessage'}) 
                     location.reload(true);
